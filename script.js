@@ -1811,23 +1811,85 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Send order to Firebase
-    sendOrderBtn.addEventListener('click', async function() {
+    // ========== WHATSAPP ORDER FUNCTION ==========
+    function sendOrderViaWhatsApp() {
         if (cart.length === 0) {
             alert(i18n.t('noItemsInCart'));
             return;
         }
 
+        // Create a form for customer data
+        const isArabic = i18n.currentLanguage === 'ar';
+        
+        const customerName = prompt(isArabic ? 'أدخل اسمك:' : 'Geben Sie Ihren Namen ein:');
+        if (!customerName) return;
+
+        const tableNumber = prompt(isArabic ? 'أدخل رقم الطاوله:' : 'Geben Sie die Tischnummer ein:');
+        if (!tableNumber) return;
+
         try {
+            // Calculate totals
             const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
             const deliveryCostsValue = deliveryCostsInput.value.trim();
             const deliveryCosts = deliveryCostsValue === '' ? 0 : parseFloat(deliveryCostsValue) || 0;
             const finalTotal = total + deliveryCosts;
 
+            // Build WhatsApp message
+            let message = isArabic ? '🍕 *طلب جديد من Milano Pizza* 🍕\n\n' : '🍕 *Neue Bestellung von Milano Pizza* 🍕\n\n';
+            
+            // Customer info
+            message += isArabic ? `👤 *الاسم:* ${customerName}\n` : `👤 *Name:* ${customerName}\n`;
+            message += isArabic ? `🪑 *رقم الطاوله:* ${tableNumber}\n` : `🪑 *Tischnummer:* ${tableNumber}\n`;
+
+            message += '\n';
+            message += isArabic ? '🛒 *تفاصيل الطلب:*\n' : '🛒 *Bestelldetails:*\n';
+            message += '-'.repeat(40) + '\n';
+
+            // Add items
+            cart.forEach((item, index) => {
+                const itemTotal = (item.price * (item.quantity || 1)).toFixed(2);
+                const qty = item.quantity || 1;
+                message += `${index + 1}. ${item.name}`;
+                if (item.size) {
+                    message += ` (${item.size})`;
+                }
+                message += ` x${qty} = €${itemTotal}\n`;
+            });
+
+            message += '-'.repeat(40) + '\n';
+            message += isArabic 
+                ? `💰 *السعر الكلي:* €${total.toFixed(2)}\n` 
+                : `💰 *Gesamtpreis:* €${total.toFixed(2)}\n`;
+
+            if (deliveryCosts > 0) {
+                message += isArabic 
+                    ? `🚚 *تكاليف التوصيل:* €${deliveryCosts.toFixed(2)}\n` 
+                    : `🚚 *Lieferkosten:* €${deliveryCosts.toFixed(2)}\n`;
+            }
+
+            message += isArabic 
+                ? `📋 *السعر النهائي:* €${finalTotal.toFixed(2)}\n` 
+                : `📋 *Endsumme:* €${finalTotal.toFixed(2)}\n`;
+
+            message += '\n';
+            message += isArabic ? '⏰ *الوقت:*' : '⏰ *Zeit:*';
+            message += ` ${new Date().toLocaleString(isArabic ? 'ar-SA' : 'de-DE')}\n`;
+
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // WhatsApp number (German: +49 157 306 54181)
+            const whatsappNumber = '004915730654181';
+            
+            // Create WhatsApp link
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+            // Save order to Firebase (optional - for your records)
             const items = cart.map(item => ({
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity || 1,
+                size: item.size || '',
                 itemTotal: ((item.price * (item.quantity || 1)).toFixed(2))
             }));
 
@@ -1836,41 +1898,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalPrice: parseFloat(total.toFixed(2)),
                 deliveryCost: parseFloat(deliveryCosts.toFixed(2)),
                 finalPrice: parseFloat(finalTotal.toFixed(2)),
+                customerName: customerName,
+                tableNumber: tableNumber,
                 timestamp: new Date(),
-                status: 'new',
+                status: 'pending_whatsapp',
                 language: i18n.currentLanguage
             };
 
             // Save to Firebase
-            const orderId = await saveOrderToFirestore(orderData);
+            saveOrderToFirestore(orderData);
+
+            // Show success message and open WhatsApp
+            const successMsg = isArabic 
+                ? `✅ تم تحضير طلبك!\nسيتم فتح WhatsApp الآن...` 
+                : `✅ Ihre Bestellung ist vorbereitet!\nWhatsApp wird gleich geöffnet...`;
             
-            if (orderId) {
-                // Success message
-                const successMsg = i18n.currentLanguage === 'ar' 
-                    ? `✅ تم إرسال الطلب بنجاح!\nرقم الطلب: ${orderId}`
-                    : `✅ Bestellung erfolgreich gesendet!\nBestellnummer: ${orderId}`;
-                
-                alert(successMsg);
-                console.log('✅ Order sent successfully:', orderId);
-                
-                // Clear cart
-                cart = [];
-                deliveryCostsInput.value = '';
-                renderCart();
-                calculateTotals();
-            } else {
-                const errorMsg = i18n.currentLanguage === 'ar' 
-                    ? '❌ حدث خطأ في إرسال الطلب'
-                    : '❌ Fehler beim Versenden der Bestellung';
-                alert(errorMsg);
-            }
+            alert(successMsg);
+            
+            // Open WhatsApp
+            window.open(whatsappLink, '_blank');
+
+            // Clear cart
+            cart = [];
+            deliveryCostsInput.value = '';
+            renderCart();
+            calculateTotals();
+
+            console.log('✅ Order sent to WhatsApp successfully');
+
         } catch (error) {
-            console.error('Error sending order:', error);
+            console.error('Error sending order via WhatsApp:', error);
             const errorMsg = i18n.currentLanguage === 'ar' 
                 ? '❌ حدث خطأ: ' + error.message
                 : '❌ Fehler: ' + error.message;
             alert(errorMsg);
         }
+    }
+
+    // Send order to Firebase or WhatsApp
+    sendOrderBtn.addEventListener('click', async function() {
+        sendOrderViaWhatsApp();
     });
 
     // Initial render
