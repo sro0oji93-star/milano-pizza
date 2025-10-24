@@ -1,0 +1,15 @@
+{
+  "appId": "com.milanopizza.app",
+  "appName": "Milano Pizza",
+  "webDir": "www",
+  "android": {
+    "webViewConfiguration": {
+      "mediaPlaybackRequiresUserGesture": false
+    }
+  },
+  "plugins": {
+    "SpeechRecognition": {
+      "permissions": ["RECORD_AUDIO"]
+    }
+  }
+}

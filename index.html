@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="headerTitle">Milano Pizza</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .qr-code-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .qr-code-container:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .qr-code-container #qrCode {
+            display: block;
+            cursor: pointer;
+        }
+        .qr-code-container #qrCode canvas {
+            max-width: 100px;
+            height: auto;
+            display: block;
+        }
+        .qr-code-container:hover #qrCode canvas {
+            filter: drop-shadow(0 0 5px rgba(255, 107, 53, 0.5));
+        }
+        .qr-code-container .qr-label {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .qr-download-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+        }
+        .qr-download-btn:hover {
+            background: #d94e1f;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="qrCodeContainer" class="qr-code-container" title="اضغط للنسخ الرابط / Link kopieren">
+        <div id="qrCode"></div>
+        <div class="qr-label">QR Code</div>
+        <button id="downloadQrBtn" class="qr-download-btn" title="تحميل الصورة / Bild herunterladen">
+            <i class="fas fa-download"></i>
+        </button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-pizza-slice"></i> <span data-i18n="headerTitle">Milano Pizza</span></h1>
+            <div class="header-buttons">
+                <button id="voiceBtn" class="voice-btn" title="اضغط للتحدث"><i class="fas fa-microphone"></i> <span data-i18n="voiceBtn">Sprache</span></button>
+                <button id="newOrderBtn"><i class="fas fa-plus-circle"></i> <span data-i18n="newOrder">Neue Bestellung</span></button>
+                <button id="savedInvoicesBtn"><i class="fas fa-save"></i> <span data-i18n="savedInvoices">Speichern</span></button>
+                <button id="languageToggle" class="language-btn" title="تبديل اللغة / Sprache wechseln"><i class="fas fa-globe"></i> <span data-i18n="languageToggle">العربية</span></button>
+            </div>
+        </header>
+
+        <div class="categories-top">
+            <h3 data-i18n="categories">Kategorien</h3>
+            <ul id="categoryList">
+                <!-- Categories will be loaded here by JavaScript -->
+            </ul>
+        </div>
+
+        <main>
+            <section class="menu">
+                <h2 id="currentCategoryTitle"><i class="fas fa-utensils"></i> <span data-i18n="selectCategory">Wählen Sie eine Kategorie</span></h2>
+                <div id="searchContainer" class="search-container" style="display: none;">
+                    <input type="text" id="pizzaSearch" class="pizza-search" placeholder="البحث عن بيتزا... / Pizza suchen...">
+                </div>
+                <div id="menuItems" class="menu-items">
+                    <!-- Menu items will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <section class="cart">
+                <h2><i class="fas fa-shopping-cart"></i> <span data-i18n="cart">Warenkorb</span></h2>
+                <ul id="cartItems">
+                    <!-- Cart items will be loaded here by JavaScript -->
+                </ul>
+                <div class="cart-summary">
+                    <p><i class="fas fa-calculator"></i> <span data-i18n="totalPrice">Gesamtpreis</span>: <span id="totalPrice">0.00€</span></p>
+                    <div class="delivery-costs">
+                        <label for="deliveryCostsInput"><i class="fas fa-truck"></i> <span data-i18n="deliveryCosts">Lieferkosten</span>:</label>
+                        <input type="number" id="deliveryCostsInput" min="0" step="0.01" data-i18n-placeholder="deliveryCostsPlaceholder" placeholder="0.00">
+                        <span>€</span>
+                    </div>
+                    <p><i class="fas fa-receipt"></i> <span data-i18n="finalPrice">Endpreis</span>: <span id="finalPrice">0.00€</span></p>
+                </div>
+                <div class="cart-actions">
+                    <button id="sendOrderBtn"><i class="fas fa-paper-plane"></i> <span data-i18n="sendOrder">الطلب إرسال / Bestellung senden</span></button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2><i class="fas fa-file-invoice-dollar"></i> <span data-i18n="invoiceTitle">Rechnung</span></h2>
+            <div id="invoiceDetails">
+                <!-- Invoice details will be loaded here -->
+            </div>
+            <div class="invoice-actions">
+                <button id="saveInvoiceBtn"><i class="fas fa-save"></i> <span>حفظ الفاتورة / Speichern</span></button>
+                <button id="printInvoiceBtn"><i class="fas fa-print"></i> <span data-i18n="print">Drucken</span></button>
+                <button id="savePdfBtn"><i class="fas fa-file-pdf"></i> <span data-i18n="savePdf">Als PDF speichern</span></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="savedInvoicesModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close-button" id="closeSavedInvoices">&times;</span>
+            <h2><i class="fas fa-history"></i> <span data-i18n="savedInvoices">الفواتير المحفوظة</span></h2>
+            <div id="savedInvoicesList" class="saved-invoices-list">
+                <!-- Saved invoices will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK - UMD Build -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <!-- HTML2Canvas Library for downloading QR code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="i18n.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

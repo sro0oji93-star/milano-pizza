@@ -1,0 +1,3330 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Milano Pizza - Delivery Service">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Milano Pizza</title>
+    <style>
+body {
+    font-family: "Segoe UI", "Droid Kufi Arabic", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    color: #333;
+    transition: direction 0.3s ease;
+}
+
+/* RTL Support for Arabic */
+body[dir="rtl"] {
+    direction: rtl;
+}
+
+body[dir="rtl"] header {
+    flex-direction: row-reverse;
+}
+
+body[dir="rtl"] .header-buttons {
+    flex-direction: row-reverse;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+#newOrderBtn {
+    background-color: #ffffff;
+    color: #667eea;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#newOrderBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.voice-btn {
+    background-color: #ffffff;
+    color: #667eea;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.voice-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+#savedInvoicesBtn {
+    background-color: #ffffff;
+    color: #667eea;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#savedInvoicesBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.language-btn {
+    background-color: #f59e0b;
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.language-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+    background-color: #f97316;
+}
+
+/* Categories at Top */
+.categories-top {
+    background-color: #fff;
+    padding: 20px 40px;
+    border-bottom: 1px solid #e5e7eb;
+    overflow-x: auto;
+}
+
+.categories-top h3 {
+    margin: 0 0 15px 0;
+    color: #1f2937;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.categories-top ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+main {
+    display: flex;
+    flex-grow: 1;
+    padding: 40px;
+    gap: 30px;
+}
+
+.menu, .cart {
+    background-color: #f9fafb;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.menu {
+    flex: 3;
+    min-width: 400px;
+}
+
+.cart {
+    flex: 1.5;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    color: #1f2937;
+    margin-top: 0;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* Categories List */
+#categoryList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+#categoryList li {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    white-space: nowrap;
+    font-weight: 600;
+    color: #1f2937;
+    animation: slideUp 0.3s ease forwards;
+}
+
+#categoryList li:hover {
+    background-color: #f3f4f6;
+    border-color: #667eea;
+    transform: translateY(-2px);
+}
+
+#categoryList li.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+}
+
+.category-item {
+    animation: slideUp 0.3s ease forwards;
+    opacity: 0;
+}
+
+.category-item.active span::after {
+    content: " ✓";
+    color: #fff;
+}
+
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.menu-item {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.menu-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+.menu-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.menu-item p {
+    margin: 0;
+    font-weight: 700;
+    color: #667eea;
+    font-size: 1.1em;
+}
+
+.pizza-prices {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.pizza-size-btn {
+    background-color: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 18px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin: 3px;
+}
+
+.pizza-size-btn:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+#cartItems {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 300px; /* Adjust as needed */
+}
+
+#cartItems li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+    background-color: #f9fafb;
+}
+
+#cartItems li:hover {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+#cartItems li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-details span {
+    display: block;
+}
+
+.cart-item-details .item-name {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.cart-item-details .item-price {
+    color: #6b7280;
+    font-size: 0.9em;
+}
+
+.remove-item-btn {
+    background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8em;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+body[dir="rtl"] .remove-item-btn {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.remove-item-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(248, 113, 113, 0.3);
+}
+
+/* Quantity Controls */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    background: linear-gradient(135deg, #f0f4ff 0%, #f5e6ff 100%);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #e0e8ff;
+}
+
+body[dir="rtl"] .quantity-controls {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.qty-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.qty-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.qty-btn:active {
+    transform: scale(0.95);
+}
+
+.qty-display {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.qty-total {
+    font-weight: 700;
+    color: #667eea;
+    min-width: 45px;
+    text-align: right;
+}
+
+body[dir="rtl"] .qty-total {
+    text-align: left;
+}
+
+.cart-item-details > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-summary {
+    border-top: 2px solid #e5e7eb;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.cart-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    font-size: 1.05em;
+    color: #1f2937;
+}
+
+.cart-summary p span {
+    font-weight: 700;
+    color: #667eea;
+}
+
+.delivery-costs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 5px 0;
+}
+
+.delivery-costs label {
+    font-weight: bold;
+}
+
+.delivery-costs input {
+    width: 80px;
+    padding: 8px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    text-align: right;
+    transition: border 0.3s ease;
+    background-color: #f9fafb;
+}
+
+.delivery-costs input:focus {
+    outline: none;
+    border-color: #667eea;
+    background-color: #fff;
+}
+
+.delivery-costs span {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.cart-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.cart-actions button {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#createInvoiceBtn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    border-radius: 8px;
+    padding: 12px !important;
+    font-weight: 600;
+}
+
+#createInvoiceBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* تم إزالة تنسيقات زر الدفع */
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 40px;
+    border: none;
+    width: 85%;
+    max-width: 700px;
+    border-radius: 20px;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.close-button {
+    color: #9ca3af;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+body[dir="rtl"] .close-button {
+    float: left;
+    right: auto;
+    left: 20px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #667eea;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#invoiceDetails {
+    margin-top: 25px;
+    border: 1px solid #e5e7eb;
+    padding: 25px;
+    background: linear-gradient(135deg, #f9fafb 0%, #fff 100%);
+    line-height: 1.8;
+    border-radius: 12px;
+}
+
+#invoiceDetails h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1f2937;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+#invoiceDetails p {
+    margin: 8px 0;
+    color: #374151;
+}
+
+#invoiceDetails .invoice-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #e5e7eb;
+    padding: 8px 0;
+    font-size: 0.95em;
+}
+
+#invoiceDetails .invoice-item:last-of-type {
+    border-bottom: none;
+}
+
+#invoiceDetails .invoice-total {
+    font-weight: 700;
+    margin-top: 15px;
+    border-top: 2px solid #667eea;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    color: #667eea;
+    font-size: 1.1em;
+}
+
+.invoice-actions {
+    margin-top: 30px;
+    text-align: right;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.invoice-actions button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.invoice-actions button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+#saveInvoiceBtn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+}
+
+#saveInvoiceBtn:hover {
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        border-radius: 8px;
+    }
+
+    header {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+    }
+
+    header h1 {
+        font-size: 22px;
+        width: 100%;
+    }
+
+    .header-buttons {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .header-buttons button {
+        flex: 1;
+        padding: 10px 12px !important;
+        font-size: 14px !important;
+    }
+
+    .categories-top {
+        padding: 15px 20px;
+        overflow-x: auto;
+    }
+
+    .categories-top h3 {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+    }
+
+    .categories-top ul {
+        gap: 8px;
+    }
+
+    #categoryList li {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+
+    main {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .menu, .cart {
+        flex: none;
+        width: 100%;
+        margin-bottom: 0;
+        padding: 15px;
+        min-width: auto;
+    }
+
+    .menu-items {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .menu-item {
+        padding: 15px 10px;
+    }
+
+    .menu-item h3 {
+        font-size: 0.95em;
+    }
+
+    .menu-item p {
+        font-size: 0.9em;
+    }
+
+    .pizza-prices {
+        margin-top: 8px;
+        gap: 3px;
+    }
+
+    .pizza-size-btn {
+        padding: 6px 10px;
+        font-size: 0.75em;
+        margin: 2px;
+    }
+
+    #cartItems {
+        max-height: 250px;
+    }
+
+    .cart-summary {
+        margin-top: 15px;
+        padding-top: 15px;
+    }
+
+    .cart-summary p {
+        font-size: 1em;
+    }
+
+    .cart-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .cart-actions button {
+        width: 100%;
+        margin: 0;
+        padding: 10px !important;
+        font-size: 14px !important;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .close-button {
+        font-size: 24px;
+        top: 5px;
+        right: 10px;
+    }
+
+    #categoryList li {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
+
+    .delivery-costs {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .delivery-costs input {
+        width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px 15px;
+    }
+
+    header h1 {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+    }
+
+    .header-buttons {
+        width: 100%;
+        gap: 6px;
+        flex-direction: column;
+    }
+
+    .header-buttons button {
+        width: 100%;
+        padding: 9px 10px !important;
+        font-size: 13px !important;
+        margin: 0;
+    }
+
+    .categories-top {
+        padding: 12px 15px;
+    }
+
+    .categories-top h3 {
+        margin: 0 0 8px 0;
+        font-size: 12px;
+    }
+
+    #categoryList li {
+        padding: 6px 12px;
+        font-size: 0.85em;
+    }
+
+    main {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .menu, .cart {
+        padding: 12px;
+    }
+
+    h2 {
+        font-size: 1.1em;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+    }
+
+    .menu-items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .menu-item {
+        padding: 12px 8px;
+    }
+
+    .menu-item h3 {
+        font-size: 0.85em;
+        margin: 0 0 6px 0;
+    }
+
+    .menu-item p {
+        font-size: 0.8em;
+    }
+
+    .pizza-prices {
+        margin-top: 6px;
+        gap: 2px;
+        flex-wrap: wrap;
+    }
+
+    .pizza-size-btn {
+        padding: 5px 8px;
+        font-size: 0.7em;
+        margin: 1px;
+    }
+
+    #cartItems {
+        max-height: 200px;
+    }
+
+    .cart-item-details .item-name {
+        font-size: 0.9em;
+    }
+
+    .cart-item-details .item-price {
+        font-size: 0.8em;
+    }
+
+    .remove-item-btn {
+        padding: 6px 10px;
+        font-size: 0.75em;
+        margin-left: 5px;
+    }
+
+    .cart-summary {
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+
+    .cart-summary p {
+        font-size: 0.95em;
+        margin: 4px 0;
+    }
+
+    .delivery-costs {
+        margin: 8px 0;
+        gap: 6px;
+    }
+
+    .delivery-costs label {
+        font-size: 0.9em;
+    }
+
+    .delivery-costs input {
+        width: 80px;
+        padding: 6px 8px;
+        font-size: 0.85em;
+    }
+
+    .delivery-costs span {
+        font-size: 0.85em;
+    }
+
+    .cart-actions {
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 10px;
+    }
+
+    .cart-actions button {
+        width: 100%;
+        padding: 8px 10px !important;
+        font-size: 12px !important;
+        margin: 0;
+    }
+
+    .modal-content {
+        width: 98%;
+        padding: 15px;
+    }
+
+    #invoiceDetails {
+        padding: 10px;
+    }
+
+    #invoiceDetails h3 {
+        font-size: 1em;
+    }
+
+    #invoiceDetails p {
+        font-size: 0.9em;
+    }
+
+    .invoice-actions {
+        text-align: center;
+    }
+
+    .invoice-actions button {
+        padding: 10px 16px !important;
+        font-size: 13px !important;
+        margin: 5px 5px 0 0;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.menu-item {
+    animation: slideUp 0.3s ease forwards;
+}
+
+.menu-item:nth-child(1) { animation-delay: 0.05s; }
+.menu-item:nth-child(2) { animation-delay: 0.1s; }
+.menu-item:nth-child(3) { animation-delay: 0.15s; }
+.menu-item:nth-child(4) { animation-delay: 0.2s; }
+.menu-item:nth-child(5) { animation-delay: 0.25s; }
+.menu-item:nth-child(6) { animation-delay: 0.3s; }
+.menu-item:nth-child(7) { animation-delay: 0.35s; }
+.menu-item:nth-child(8) { animation-delay: 0.4s; }
+
+/* Modal Large */
+.modal-large {
+    max-width: 900px !important;
+    max-height: 80vh;
+}
+
+.modal-large .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Saved Invoices List */
+.saved-invoices-list {
+    margin-top: 20px;
+    display: grid;
+    gap: 15px;
+}
+
+.saved-invoice-item {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.saved-invoice-item:hover {
+    background-color: #f9fafb;
+    border-color: #667eea;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+}
+
+.saved-invoice-item-info {
+    flex: 1;
+}
+
+.saved-invoice-item-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 20px;
+}
+
+.invoice-number {
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 1.15em;
+}
+
+.invoice-date {
+    color: #6b7280;
+    font-size: 0.95em;
+}
+
+.invoice-total {
+    color: #667eea;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.saved-invoice-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.invoice-view-btn,
+.invoice-delete-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.invoice-view-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.invoice-view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+}
+
+.invoice-delete-btn {
+    background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+    color: white;
+}
+
+.invoice-delete-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(248, 113, 113, 0.3);
+}
+
+.empty-invoices {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
+
+.empty-invoices i {
+    font-size: 64px;
+    margin-bottom: 20px;
+    display: block;
+    opacity: 0.3;
+    color: #667eea;
+}
+
+
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0,0,0,.1);
+    border-radius: 50%;
+    border-top-color: #667eea;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Add pulse effect for buttons */
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 117, 252, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(37, 117, 252, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 117, 252, 0);
+    }
+}
+
+/* Header Buttons Styling */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Voice Button Styling */
+.voice-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.voice-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    background-color: #ff5252;
+}
+
+.voice-btn.listening {
+    animation: pulse 1s infinite;
+    background-color: #2575fc;
+}
+
+/* Voice Notification */
+.voice-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    animation: slideInUp 0.3s ease;
+    font-weight: 600;
+}
+
+.voice-notification.error {
+    background-color: #f44336;
+}
+
+.voice-notification.info {
+    background-color: #2196F3;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Search Input Styles */
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.pizza-search {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    text-align: left;
+    background-color: #f9fafb;
+}
+
+body[dir="rtl"] .pizza-search {
+    text-align: right;
+    direction: rtl;
+}
+
+.pizza-search:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background-color: #fff;
+}
+
+.pizza-search::placeholder {
+    color: #9ca3af;
+}
+
+/* Mobile adjustments for search */
+@media (max-width: 768px) {
+    .search-container {
+        margin-bottom: 15px;
+    }
+
+    .pizza-search {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-container {
+        margin-bottom: 12px;
+    }
+
+    .pizza-search {
+        padding: 9px 10px;
+        font-size: 13px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-pizza-slice"></i> <span data-i18n="headerTitle">Milano Pizza</span></h1>
+            <div class="header-buttons">
+                <button id="voiceBtn" class="voice-btn" title="اضغط للتحدث"><i class="fas fa-microphone"></i> <span data-i18n="voiceBtn">Sprache</span></button>
+                <button id="newOrderBtn"><i class="fas fa-plus-circle"></i> <span data-i18n="newOrder">Neue Bestellung</span></button>
+                <button id="savedInvoicesBtn"><i class="fas fa-save"></i> <span data-i18n="savedInvoices">Speichern</span></button>
+                <button id="languageToggle" class="language-btn" title="تبديل اللغة / Sprache wechseln"><i class="fas fa-globe"></i> <span data-i18n="languageToggle">العربية</span></button>
+            </div>
+        </header>
+
+        <div class="categories-top">
+            <h3 data-i18n="categories">Kategorien</h3>
+            <ul id="categoryList">
+                <!-- Categories will be loaded here by JavaScript -->
+            </ul>
+        </div>
+
+        <main>
+            <section class="menu">
+                <h2 id="currentCategoryTitle"><i class="fas fa-utensils"></i> <span data-i18n="selectCategory">Wählen Sie eine Kategorie</span></h2>
+                <div id="searchContainer" class="search-container" style="display: none;">
+                    <input type="text" id="pizzaSearch" class="pizza-search" placeholder="البحث عن بيتزا... / Pizza suchen...">
+                </div>
+                <div id="menuItems" class="menu-items">
+                    <!-- Menu items will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <section class="cart">
+                <h2><i class="fas fa-shopping-cart"></i> <span data-i18n="cart">Warenkorb</span></h2>
+                <ul id="cartItems">
+                    <!-- Cart items will be loaded here by JavaScript -->
+                </ul>
+                <div class="cart-summary">
+                    <p><i class="fas fa-calculator"></i> <span data-i18n="totalPrice">Gesamtpreis</span>: <span id="totalPrice">0.00€</span></p>
+                    <div class="delivery-costs">
+                        <label for="deliveryCostsInput"><i class="fas fa-truck"></i> <span data-i18n="deliveryCosts">Lieferkosten</span>:</label>
+                        <input type="number" id="deliveryCostsInput" min="0" step="0.01" data-i18n-placeholder="deliveryCostsPlaceholder" placeholder="0.00">
+                        <span>€</span>
+                    </div>
+                    <p><i class="fas fa-receipt"></i> <span data-i18n="finalPrice">Endpreis</span>: <span id="finalPrice">0.00€</span></p>
+                </div>
+                <div class="cart-actions">
+                    <button id="createInvoiceBtn"><i class="fas fa-file-invoice"></i> <span data-i18n="createInvoice">Rechnung erstellen</span></button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2><i class="fas fa-file-invoice-dollar"></i> <span data-i18n="invoiceTitle">Rechnung</span></h2>
+            <div id="invoiceDetails">
+                <!-- Invoice details will be loaded here -->
+            </div>
+            <div class="invoice-actions">
+                <button id="saveInvoiceBtn"><i class="fas fa-save"></i> <span>حفظ الفاتورة / Speichern</span></button>
+                <button id="printInvoiceBtn"><i class="fas fa-print"></i> <span data-i18n="print">Drucken</span></button>
+                <button id="savePdfBtn"><i class="fas fa-file-pdf"></i> <span data-i18n="savePdf">Als PDF speichern</span></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="savedInvoicesModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close-button" id="closeSavedInvoices">&times;</span>
+            <h2><i class="fas fa-history"></i> <span data-i18n="savedInvoices">الفواتير المحفوظة</span></h2>
+            <div id="savedInvoicesList" class="saved-invoices-list">
+                <!-- Saved invoices will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="i18n.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+// i18n translations
+// Internationalization (i18n) - عربي و ألماني
+const i18n = {
+    currentLanguage: localStorage.getItem('language') || 'de', // Default to German
+    
+    translations: {
+        de: {
+            // Header
+            headerTitle: 'Milano Pizza',
+            voiceBtn: 'Sprache',
+            voiceBtnArabic: 'صوت',
+            newOrder: 'Neue Bestellung',
+            savedInvoices: 'Speichern',
+            languageToggle: 'العربية',
+            
+            // Sidebar
+            categories: 'Kategorien',
+            categoriesArabic: 'الفئات',
+            
+            // Main Content
+            selectCategory: 'Wählen Sie eine Kategorie',
+            selectCategoryArabic: 'اختر الفئة',
+            
+            // Cart
+            cart: 'Warenkorb',
+            cartArabic: 'السلة',
+            totalPrice: 'Gesamtpreis',
+            totalPriceArabic: 'السعر الإجمالي',
+            deliveryCosts: 'Lieferkosten',
+            deliveryCostsArabic: 'تكاليف التوصيل',
+            finalPrice: 'Endpreis',
+            finalPriceArabic: 'السعر النهائي',
+            createInvoice: 'Rechnung erstellen',
+            createInvoiceArabic: 'إنشاء فاتورة',
+            removeItem: 'Entfernen',
+            removeItemArabic: 'إزالة',
+            
+            // Invoice
+            invoiceTitle: 'Rechnung',
+            print: 'Drucken',
+            savePdf: 'Als PDF speichern',
+            
+            // Messages
+            productNotFound: 'Produkt nicht gefunden',
+            productNotFoundArabic: 'المنتج غير موجود',
+            noItemsInCart: 'Keine Artikel im Warenkorb',
+            noItemsInCartArabic: 'لا توجد عناصر في السلة',
+            itemAdded: 'zum Warenkorb hinzugefügt',
+            itemAddedArabic: 'تمت إضافته إلى السلة',
+            selectSize: 'Bitte wählen Sie eine Größe',
+            selectSizeArabic: 'يرجى اختيار الحجم',
+            
+            // Sizes
+            klein: 'Klein (26cm)',
+            klein_arabic: 'صغير (26 سم)',
+            medium: 'Medium (30cm)',
+            medium_arabic: 'وسط (30 سم)',
+            gross: 'Groß (45*32cm)',
+            gross_arabic: 'كبير (45*32 سم)',
+            party: 'Party (40*60cm)',
+            party_arabic: 'حفلة (40*60 سم)',
+            
+            // Additional UI Elements
+            deliveryCostsPlaceholder: '0.00',
+            voiceListeningMsg: '🎤 Höre zu... Sagen Sie (Milano Tisch) oder (Margherita)',
+            pdfInstructions: 'Bitte verwenden Sie die Druckfunktion Ihres Browsers und wählen Sie "Als PDF speichern".',
+            invoiceNumber: 'Rechnungsnummer',
+            invoiceNumberArabic: 'رقم الفاتورة',
+            invoiceDate: 'Datum',
+            invoiceDateArabic: 'التاريخ',
+            orderedItems: 'Bestellte Artikel',
+            orderedItemsArabic: 'العناصر المطلوبة',
+            inch: '6 Stk.',
+            inchArabic: '6 قطع',
+            inch12: '12 Stk.',
+            inch12Arabic: '12 قطعة',
+            
+            // Voice Recognition
+            listening: 'Höre zu...',
+            listeningArabic: 'استمع...',
+            voiceError: 'Fehler bei der Spracherkennung',
+            voiceErrorArabic: 'خطأ في التعرف على الكلام',
+            tryAgain: 'Erneut versuchen',
+            tryAgainArabic: 'حاول مرة أخرى',
+            
+            // Pizza Categories in German
+            'Pizza 🍕': 'Pizza 🍕',
+            'Burger 🍔': 'Burger 🍔',
+            'Croque 🥪': 'Croque 🥪',
+            'Salat 🥗': 'Salat 🥗',
+            'Pasta 🍝': 'Pasta 🍝',
+            'Schnitzel 🥩': 'Schnitzel 🥩',
+            'Snacks 🍟': 'Snacks 🍟',
+            'Beilagen 🍞': 'Beilagen 🍞',
+            'Fingerfood 🍗': 'Fingerfood 🍗',
+            'Angebote 💥': 'Angebote 💥',
+            'Gyros 🥙': 'Gyros 🥙',
+            'Getränke 🥤': 'Getränke 🥤',
+            
+            // Pizza Categories in Arabic
+            'Pizza 🍕Arabic': 'البيتزا 🍕',
+            'Burger 🍔Arabic': 'البرجر 🍔',
+            'Croque 🥪Arabic': 'الكروك 🥪',
+            'Salat 🥗Arabic': 'السلطات 🥗',
+            'Pasta 🍝Arabic': 'الباستا 🍝',
+            'Schnitzel 🥩Arabic': 'الشنتزل 🥩',
+            'Snacks 🍟Arabic': 'السناكس 🍟',
+            'Beilagen 🍞Arabic': 'الأطباق الجانبية 🍞',
+            'Fingerfood 🍗Arabic': 'الفينجرفود 🍗',
+            'Angebote 💥Arabic': 'العروض 💥',
+            'Gyros 🥙Arabic': 'الجيروس 🥙',
+            'Getränke 🥤Arabic': 'المشروبات 🥤',
+        },
+        ar: {
+            // Header
+            headerTitle: 'ميلانو بيتزا',
+            voiceBtn: 'صوت',
+            voiceBtnArabic: 'صوت',
+            newOrder: 'طلب جديد',
+            savedInvoices: 'حفظ',
+            languageToggle: 'Deutsch',
+            
+            // Sidebar
+            categories: 'الفئات',
+            categoriesArabic: 'الفئات',
+            
+            // Main Content
+            selectCategory: 'اختر فئة',
+            selectCategoryArabic: 'اختر الفئة',
+            
+            // Cart
+            cart: 'السلة',
+            cartArabic: 'السلة',
+            totalPrice: 'السعر الإجمالي',
+            totalPriceArabic: 'السعر الإجمالي',
+            deliveryCosts: 'تكاليف التوصيل',
+            deliveryCostsArabic: 'تكاليف التوصيل',
+            finalPrice: 'السعر النهائي',
+            finalPriceArabic: 'السعر النهائي',
+            createInvoice: 'إنشاء فاتورة',
+            createInvoiceArabic: 'إنشاء فاتورة',
+            removeItem: 'إزالة',
+            removeItemArabic: 'إزالة',
+            
+            // Invoice
+            invoiceTitle: 'الفاتورة',
+            invoiceTitleArabic: 'الفاتورة',
+            print: 'طباعة',
+            printArabic: 'طباعة',
+            savePdf: 'حفظ كـ PDF',
+            savePdfArabic: 'حفظ كـ PDF',
+            
+            // Messages
+            productNotFound: 'المنتج غير موجود',
+            productNotFoundArabic: 'المنتج غير موجود',
+            noItemsInCart: 'لا توجد عناصر في السلة',
+            noItemsInCartArabic: 'لا توجد عناصر في السلة',
+            itemAdded: 'تمت إضافته إلى السلة',
+            itemAddedArabic: 'تمت إضافته إلى السلة',
+            selectSize: 'يرجى اختيار الحجم',
+            selectSizeArabic: 'يرجى اختيار الحجم',
+            
+            // Sizes
+            klein: 'صغير (26 سم)',
+            klein_arabic: 'صغير (26 سم)',
+            medium: 'وسط (30 سم)',
+            medium_arabic: 'وسط (30 سم)',
+            gross: 'كبير (45*32 سم)',
+            gross_arabic: 'كبير (45*32 سم)',
+            party: 'حفلة (40*60 سم)',
+            party_arabic: 'حفلة (40*60 سم)',
+            
+            // Additional UI Elements
+            deliveryCostsPlaceholder: '0.00',
+            voiceListeningMsg: '🎤 استمع... قل (ميلانو تلاتين) أو (مرغريتا)',
+            pdfInstructions: 'استخدم وظيفة الطباعة في المتصفح واختر "حفظ كـ PDF".',
+            invoiceTitle: 'الفاتورة',
+            invoiceNumber: 'رقم الفاتورة',
+            invoiceNumberArabic: 'رقم الفاتورة',
+            invoiceDate: 'التاريخ',
+            invoiceDateArabic: 'التاريخ',
+            orderedItems: 'العناصر المطلوبة',
+            orderedItemsArabic: 'العناصر المطلوبة',
+            inch: '6 قطع',
+            inchArabic: '6 قطع',
+            inch12: '12 قطعة',
+            inch12Arabic: '12 قطعة',
+            
+            // Voice Recognition
+            listening: 'استمع...',
+            listeningArabic: 'استمع...',
+            voiceError: 'خطأ في التعرف على الكلام',
+            voiceErrorArabic: 'خطأ في التعرف على الكلام',
+            tryAgain: 'حاول مرة أخرى',
+            tryAgainArabic: 'حاول مرة أخرى',
+            
+            // Pizza Categories in German
+            'Pizza 🍕': 'البيتزا 🍕',
+            'Burger 🍔': 'البرجر 🍔',
+            'Croque 🥪': 'الكروك 🥪',
+            'Salat 🥗': 'السلطات 🥗',
+            'Pasta 🍝': 'الباستا 🍝',
+            'Schnitzel 🥩': 'الشنتزل 🥩',
+            'Snacks 🍟': 'السناكس 🍟',
+            'Beilagen 🍞': 'الأطباق الجانبية 🍞',
+            'Fingerfood 🍗': 'الفينجرفود 🍗',
+            'Angebote 💥': 'العروض 💥',
+            'Gyros 🥙': 'الجيروس 🥙',
+            'Getränke 🥤': 'المشروبات 🥤',
+            
+            // Pizza Categories in Arabic
+            'Pizza 🍕Arabic': 'البيتزا 🍕',
+            'Burger 🍔Arabic': 'البرجر 🍔',
+            'Croque 🥪Arabic': 'الكروك 🥪',
+            'Salat 🥗Arabic': 'السلطات 🥗',
+            'Pasta 🍝Arabic': 'الباستا 🍝',
+            'Schnitzel 🥩Arabic': 'الشنتزل 🥩',
+            'Snacks 🍟Arabic': 'السناكس 🍟',
+            'Beilagen 🍞Arabic': 'الأطباق الجانبية 🍞',
+            'Fingerfood 🍗Arabic': 'الفينجرفود 🍗',
+            'Angebote 💥Arabic': 'العروض 💥',
+            'Gyros 🥙Arabic': 'الجيروس 🥙',
+            'Getränke 🥤Arabic': 'المشروبات 🥤',
+            
+            // Pizza Products
+            'Margherita': 'مرغريتا',
+            'Mozzarella': 'موتزاريلا',
+            'Formaggi': 'فورماجي',
+            'Fungi': 'فونجي',
+            'Salami': 'سلامي',
+            'Prosciutto': 'بروشوتو',
+            'Salami Fungi': 'سلامي وفونجي',
+            'Prosciutto Fungi': 'بروشوتو وفونجي',
+            'Prosciutto Salami': 'بروشوتو وسلامي',
+            'Milano': 'ميلانو',
+            'Italia': 'إيطاليا',
+            'Capri': 'كابري',
+            'Santorini': 'سانتوريني',
+            'Ilo': 'إيلو',
+            'Hawaii': 'هاواي',
+            'Tonno': 'تونو',
+            'Madridi': 'مدريدي',
+            'Scampi': 'سكامبي',
+            'Frutti de Mare': 'فروتي ديل ماري',
+            'Veggie': 'نباتي',
+            'Palermo': 'باليرمو',
+            'Hähnchenbrust': 'صدر دجاج',
+            'Classico': 'كلاسيكو',
+            'Miami': 'ميامي',
+            'Island': 'آيلاند',
+            'Paris': 'باريس',
+            'Rucola': 'روكولا',
+            'Bacon': 'بيكون',
+            'Chicken Curry': 'دجاج كاري',
+            'Istanbul': 'اسطنبول',
+            'Hot Salami': 'سلامي حار',
+            'Emira': 'أميرة',
+            'Wunsch': 'رغبة',
+            'Pizza Homestyle': 'بيتزا منزلية',
+            'Pizza Della Casa': 'بيتزا ديلا كاسا',
+            'Pizza UFO': 'بيتزا يوفو',
+            'Pizza Spezial': 'بيتزا خاصة',
+            'Pizza Hot Dog': 'بيتزا هوت دوج',
+            'Pizza Sucuk': 'بيتزا سجق',
+            'Pizza Hot Beef': 'بيتزا لحم حار',
+            'Pizza Spinat': 'بيتزا سبانخ',
+            'Pizza Luna': 'بيتزا لونا',
+            'Pizza Gyros': 'بيتزا جيروس',
+            'Extra Zutaten': 'مكونات إضافية',
+            'Käse Rand': 'حافة الجبن',
+            
+            // Burger Products
+            'Hamburger': 'هامبرجر',
+            'Cheeseburger': 'تشيزبرجر',
+            'Chicken Burger': 'برجر الدجاج',
+            'Bacon Burger': 'برجر بيكون',
+            'Champignon Burger': 'برجر الفطر',
+            'Crispy Chicken Burger': 'برجر الدجاج المقرمش',
+            'Italian Burger': 'برجر إيطالي',
+            'Jumbo Cheeseburger': 'جامبو تشيزبرجر',
+            'Jumbo Hamburger': 'جامبو هامبرجر',
+            'Jumbo Chicken Burger': 'جامبو برجر الدجاج',
+            'Mexico Burger': 'برجر مكسيكي',
+            'Chili Cheeseburger': 'تشيزبرجر تشيلي',
+            
+            // Croque Products
+            'Croque Madame': 'كروك مدام',
+            'Croque Camembert': 'كروك كامنبير',
+            'Croque Schinken': 'كروك لحم الخنزير',
+            'Croque Salami Champignons': 'كروك سلامي وفطر',
+            'Croque Salami': 'كروك سلامي',
+            'Croque Hawaii': 'كروك هاواي',
+            'Croque Thunfisch': 'كروك التونة',
+            'Croque Hähnchenbrust': 'كروك صدر الدجاج',
+            'Croque Sucuk': 'كروك السجق',
+            
+            // Salat Products
+            'Gemischter Salat': 'سلطة مشكلة',
+            'Thunfisch Salat': 'سلطة التونة',
+            'Miista': 'ميستا',
+            'Ma Balla': 'ما بالا',
+            'Chef': 'شيف',
+            'Della Casa': 'ديلا كاسا',
+            'Guken Salat': 'سلطة الخيار',
+            'Gyros': 'جيروس',
+            
+            // Pasta Products
+            'Alla Panna': 'ألا بانا',
+            'Carbonara': 'كاربونارا',
+            'pastore': 'باستوره',
+            'Toscana': 'توسكانا',
+            'Alla Milano': 'ألا ميلانو',
+            'Pesto und Put': 'بيستو وبوت',
+            'Bolognese': 'بولونيز',
+            'scampi': 'سكامبي',
+            'Pasta Classico': 'باستا كلاسيكو',
+            'käse überbacken': 'جبن محمص',
+            
+            // Schnitzel Products
+            'Wiener Schnitzel': 'شنتزل فيينا',
+            'Jägerschnitzel': 'شنتزل الصياد',
+            'Zigeunerschnitzel': 'شنتزل تسيجوني',
+            'Schnitzel Hollandise': 'شنتزل هولانديز',
+            
+            // Snacks Products
+            'käsebröchen': 'خبز بالجبن',
+            'Pizzabröchen': 'خبز البيتزا',
+            'American Piyyabrot': 'خبز بيتزا أمريكي',
+            'Knoblauch Brot': 'خبز بالثوم',
+            'käse Knoblauch Brot': 'خبز بالثوم والجبن',
+            
+            // Beilagen Products
+            'Süsskartoffeln-Pommes': 'بطاطس حلوة',
+            'Chili Cheese Pommes': 'بطاطس بالتشيلي والجبن',
+            'Pommes': 'بطاطس مقلية',
+            'Country Fries': 'بطاطس ريفية',
+            'Twister': 'تويستر',
+            'Chili Pommes': 'بطاطس بالتشيلي',
+            'Kroketten': 'كروكيت',
+            'Gegrillte Champignons': 'فطر مشوي',
+            'Gegrilltes Gemüse': 'خضار مشوي',
+            'BBQ Pommes': 'بطاطس بصلصة باربيكيو',
+            'BBQ Twister': 'تويستر بصلصة باربيكيو',
+            'Chili Twister': 'تويستر بالتشيلي',
+            
+            // Fingerfood Products
+            'Chicken Nuggets': 'قطع الدجاج',
+            'Chicken Wings': 'أجنحة الدجاج',
+            'crispy Chicken Fingers': 'أصابع الدجاج المقرمشة',
+            'Chili Cheese Nuggets': 'قطع دجاج بالتشيلي والجبن',
+            'Moyyerella Sticks': 'عصا الموتزاريلا',
+            'Michbox': 'ميك بوكس',
+            'Curry Wurst': 'كاري فورست',
+            
+            // Angebote Products
+            'A1 Supper Familienangebot': 'أ1 عرض العائلة الفاخر',
+            'A2 Pizzblech': 'أ2 ورقة البيتزا',
+            'A3 3* Pizza': 'أ3 3 بيتزات',
+            
+            // Gyros Products
+            'Gyros Mista': 'جيروس ميستا',
+            'Gyros Italia': 'جيروس إيطاليا',
+            'Gyros Athen': 'جيروس أثينا',
+            'Gyros Auflauf': 'جيروس طاجين',
+            'Gyros Curry': 'جيروس كاري',
+            'Gyros hot': 'جيروس حار',
+            
+            // Getränke Products
+            'Cola 1Liter': 'كولا 1 لتر',
+            'Cola 0.33L': 'كولا 0.33 لتر',
+            'Redbull': 'ريد بول',
+            'Durstlöscher': 'ديرست لوشر',
+            'Fanta (0.33l)': 'فانتا 0.33 لتر',
+            'Wasser (0.5l)': 'ماء 0.5 لتر',
+        }
+    },
+    
+    // Get translated text
+    t: function(key) {
+        return this.translations[this.currentLanguage][key] || key;
+    },
+    
+    // Get translated category name
+    getCategoryName: function(categoryName) {
+        const key = this.currentLanguage === 'ar' ? categoryName + 'Arabic' : categoryName;
+        return this.translations[this.currentLanguage][key] || categoryName;
+    },
+    
+    // Get translated product name
+    getProductName: function(productName) {
+        // If German, return the original product name (don't translate)
+        if (this.currentLanguage === 'de') {
+            return productName;
+        }
+        
+        // If Arabic, look up in Arabic translations from script.js
+        if (this.currentLanguage === 'ar') {
+            // Try to find the product in Arabic translation dictionary from script.js
+            // Fall back to original name if not found
+            return productName;
+        }
+        
+        return productName;
+    },
+    
+    // Switch language
+    switchLanguage: function() {
+        this.currentLanguage = this.currentLanguage === 'de' ? 'ar' : 'de';
+        localStorage.setItem('language', this.currentLanguage);
+        this.applyLanguage();
+    },
+    
+    // Apply language to page
+    applyLanguage: function() {
+        // Set document direction and language
+        document.documentElement.lang = this.currentLanguage;
+        document.documentElement.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+        document.body.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+        
+        // Update page title
+        document.title = this.t('headerTitle');
+        
+        // Update HTML elements
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            el.textContent = this.t(key);
+        });
+        
+        // Update placeholder attributes
+        const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+        placeholderElements.forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            el.placeholder = this.t(key);
+        });
+        
+        // Update all text content (for dynamic elements)
+        if (typeof updateMenuDisplay === 'function') {
+            updateMenuDisplay();
+        }
+        if (typeof updateCartDisplay === 'function') {
+            updateCartDisplay();
+        }
+    },
+    
+    // Initialize
+    init: function() {
+        this.applyLanguage();
+        // Add event listener to language toggle button
+        const langBtn = document.getElementById('languageToggle');
+        if (langBtn) {
+            langBtn.addEventListener('click', () => {
+                this.switchLanguage();
+            });
+        }
+    }
+};
+
+// Initialize i18n when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => i18n.init());
+} else {
+    i18n.init();
+}
+
+// Main script
+// Speech Recognition Plugin
+let SpeechRecognition = null;
+let PermissionStatus = null;
+let Permissions = null;
+
+// Try to load Capacitor modules if available
+try {
+    // This will work if modules are available
+    if (typeof window !== 'undefined' && window.capacitor) {
+        console.log('Capacitor available');
+    }
+} catch (error) {
+    console.log('Capacitor not available (web environment)');
+}
+
+// ========== PERMISSION REQUEST FUNCTION ==========
+async function requestMicrophonePermission() {
+    try {
+        if (!Permissions) {
+            console.log('Permissions API not available in web environment');
+            return false;
+        }
+        const permission = await Permissions.query({ name: Permissions.RECORD_AUDIO });
+        
+        if (permission.state === PermissionStatus.GRANTED) {
+            return true;
+        } else if (permission.state === PermissionStatus.PROMPT) {
+            const result = await Permissions.request({ name: Permissions.RECORD_AUDIO });
+            return result.state === PermissionStatus.GRANTED;
+        } else {
+            console.warn('Microphone permission denied');
+            return false;
+        }
+    } catch (error) {
+        console.error('Permission check error:', error);
+        return false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const categoriesData = [
+        {
+            name: "Pizza 🍕",
+            id: "pizza",
+            items: [
+                { name: "Margherita", prices: [{ size: "26cm", price: 7.00 }, { size: "30cm", price: 9.00 }, { size: "45*32cm", price: 17.00 }, { size: "40*60cm", price: 22.50 }] },
+                { name: "Mozzarella", prices: [{ size: "26cm", price: 7.50 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 18.50 }, { size: "40*60cm", price: 23.50 }] },
+                { name: "Formaggi", prices: [{ size: "26cm", price: 7.50 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 18.50 }, { size: "40*60cm", price: 23.50 }] },
+                { name: "Fungi", prices: [{ size: "26cm", price: 7.20 }, { size: "30cm", price: 8.50 }, { size: "45*32cm", price: 19.00 }, { size: "40*60cm", price: 24.50 }] },
+                { name: "Salami", prices: [{ size: "26cm", price: 8.00 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 19.50 }, { size: "40*60cm", price: 25.00 }] },
+                { name: "Prosciutto", prices: [{ size: "26cm", price: 8.00 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 19.50 }, { size: "40*60cm", price: 25.00 }] },
+                { name: "Salami Fungi", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.00 }] },
+                { name: "Prosciutto Fungi", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.00 }] },
+                { name: "Prosciutto Salami", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.00 }] },
+                { name: "Milano", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.00 }] },
+                { name: "Italia", prices: [{ size: "26cm", price: 8.00 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 18.90 }, { size: "40*60cm", price: 24.50 }] },
+                { name: "Capri", prices: [{ size: "26cm", price: 8.00 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 18.90 }, { size: "40*60cm", price: 24.50 }] },
+                { name: "Santorini", prices: [{ size: "26cm", price: 8.90 }, { size: "30cm", price: 10.50 }, { size: "45*32cm", price: 20.50 }, { size: "40*60cm", price: 25.50 }] },
+                { name: "Ilo", prices: [{ size: "26cm", price: 9.10 }, { size: "30cm", price: 10.40 }, { size: "45*32cm", price: 20.50 }, { size: "40*60cm", price: 25.50 }] },
+                { name: "Hawaii", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.50 }] },
+                { name: "Tonno", prices: [{ size: "26cm", price: 9.00 }, { size: "30cm", price: 10.80 }, { size: "45*32cm", price: 21.90 }, { size: "40*60cm", price: 26.40 }] },
+                { name: "Madridi", prices: [{ size: "26cm", price: 9.00 }, { size: "30cm", price: 10.80 }, { size: "45*32cm", price: 21.90 }, { size: "40*60cm", price: 26.40 }] },
+                { name: "Scampi", prices: [{ size: "26cm", price: 9.50 }, { size: "30cm", price: 11.30 }, { size: "45*32cm", price: 22.40 }, { size: "40*60cm", price: 26.90 }] },
+                { name: "Frutti de Mare", prices: [{ size: "26cm", price: 9.50 }, { size: "30cm", price: 11.30 }, { size: "45*32cm", price: 22.40 }, { size: "40*60cm", price: 26.90 }] },
+                { name: "Veggie", prices: [{ size: "26cm", price: 9.00 }, { size: "30cm", price: 10.50 }, { size: "45*32cm", price: 19.70 }, { size: "40*60cm", price: 25.40 }] },
+                { name: "Palermo", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.50 }] },
+                { name: "Hähnchenbrust", prices: [{ size: "26cm", price: 9.40 }, { size: "30cm", price: 10.60 }, { size: "45*32cm", price: 18.90 }, { size: "40*60cm", price: 26.40 }] },
+                { name: "Classico", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.50 }] },
+                { name: "Miami", prices: [{ size: "26cm", price: 8.80 }, { size: "30cm", price: 10.40 }, { size: "45*32cm", price: 20.50 }, { size: "40*60cm", price: 26.40 }] },
+                { name: "Island", prices: [{ size: "26cm", price: 9.00 }, { size: "30cm", price: 10.50 }, { size: "45*32cm", price: 20.60 }, { size: "40*60cm", price: 26.80 }] },
+                { name: "Paris", prices: [{ size: "26cm", price: 10.00 }, { size: "30cm", price: 11.80 }, { size: "45*32cm", price: 22.90 }, { size: "40*60cm", price: 27.40 }] },
+                { name: "Rucola", prices: [{ size: "26cm", price: 9.50 }, { size: "30cm", price: 10.30 }, { size: "45*32cm", price: 19.90 }, { size: "40*60cm", price: 25.40 }] },
+                { name: "Bacon", prices: [{ size: "26cm", price: 9.50 }, { size: "30cm", price: 11.30 }, { size: "45*32cm", price: 22.40 }, { size: "40*60cm", price: 26.90 }] },
+                { name: "Chicken Curry", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.00 }, { size: "40*60cm", price: 25.50 }] },
+                { name: "Istanbul", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 10.80 }, { size: "45*32cm", price: 18.40 }, { size: "40*60cm", price: 24.50 }] },
+                { name: "Hot Salami", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 19.00 }, { size: "40*60cm", price: 25.50 }] },
+                { name: "Emira", prices: [{ size: "26cm", price: 8.40 }, { size: "30cm", price: 9.40 }, { size: "45*32cm", price: 18.90 }, { size: "40*60cm", price: 25.40 }] },
+                { name: "Wunsch", prices: [{ size: "26cm", price: 10.00 }, { size: "30cm", price: 12.00 }, { size: "45*32cm", price: 19.00 }, { size: "40*60cm", price: 26.50 }] },
+                { name: "Pizza Homestyle", prices: [{ size: "26cm", price: 8.00 }, { size: "30cm", price: 9.50 }, { size: "45*32cm", price: 21.00 }, { size: "40*60cm", price: 27.50 }] },
+                { name: "Pizza Della Casa", prices: [{ size: "26cm", price: 8.20 }, { size: "30cm", price: 10.40 }, { size: "45*32cm", price: 20.80 }, { size: "40*60cm", price: 26.90 }] },
+                { name: "Pizza UFO", prices: [{ size: "26cm", price: 9.40 }, { size: "30cm", price: 10.60 }, { size: "45*32cm", price: 18.90 }, { size: "40*60cm", price: 26.40 }] },
+                { name: "Pizza Spezial", prices: [{ size: "26cm", price: 8.80 }, { size: "30cm", price: 10.10 }, { size: "45*32cm", price: 20.50 }, { size: "40*60cm", price: 26.10 }] },
+                { name: "Pizza Hot Dog", prices: [{ size: "26cm", price: 8.40 }, { size: "30cm", price: 10.20 }, { size: "45*32cm", price: 20.90 }, { size: "40*60cm", price: 26.40 }] },
+                { name: "Pizza Sucuk", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 10.50 }, { size: "45*32cm", price: 21.90 }, { size: "40*60cm", price: 27.00 }] },
+                { name: "Pizza Hot Beef", prices: [{ size: "26cm", price: 7.90 }, { size: "30cm", price: 10.50 }, { size: "45*32cm", price: 20.50 }, { size: "40*60cm", price: 26.40 }] },
+                { name: "Pizza Spinat", prices: [{ size: "26cm", price: 8.50 }, { size: "30cm", price: 9.80 }, { size: "45*32cm", price: 20.90 }, { size: "40*60cm", price: 26.00 }] },
+                { name: "Pizza Luna", prices: [{ size: "26cm", price: 8.70 }, { size: "30cm", price: 10.30 }, { size: "45*32cm", price: 21.80 }, { size: "40*60cm", price: 26.20 }] },
+                { name: "Pizza Gyros", prices: [{ size: "26cm", price: 9.40 }, { size: "30cm", price: 10.60 }, { size: "45*32cm", price: 20.50 }, { size: "40*60cm", price: 26.90 }] },
+                { name: "Extra Zutaten", prices: [{ size: "26cm", price: 1.50 }, { size: "30cm", price: 2.00 }, { size: "45*32cm", price: 3.50 }, { size: "40*60cm", price: 4.00 }] },
+                { name: "Käse Rand", prices: [{ size: "26cm", price: 2.00 }, { size: "30cm", price: 2.50 }, { size: "45*32cm", price: 4.00 }, { size: "40*60cm", price: 4.90 }] }
+            ]
+        },
+        {
+            name: "Burger 🍔",
+            id: "burger",
+            items: [
+                { name: "Hamburger", price: 5.50 },
+                { name: "Cheeseburger", price: 6.00 },
+                { name: "Chicken Burger", price: 6.50 },
+                { name: "Bacon Burger", price: 7.00 },
+                { name: "Champignon Burger", price: 6.50 },
+                { name: "Crispy Chicken Burger", price: 7.00 },
+                { name: "Italian Burger", price: 6.50 },
+                { name: "Jumbo Cheeseburger", price: 8.50 },
+                { name: "Jumbo Hamburger", price: 8.00 },
+                { name: "Jumbo Chicken Burger", price: 9.00 },
+                { name: "Mexico Burger", price: 7.00 },
+                { name: "Chili Cheeseburger", price: 6.50 }
+            ]
+        },
+        {
+            name: "Croque 🥪",
+            id: "croque",
+            items: [
+                { name: "Croque Madame", price: 7.50 },
+                { name: "Croque Camembert", price: 8.50 },
+                { name: "Croque Schinken", price: 9.00 },
+                { name: "Croque Salami Champignons", price: 9.00 },
+                { name: "Croque Salami", price: 9.00 },
+                { name: "Croque Hawaii", price: 8.50 },
+                { name: "Croque Thunfisch", price: 10.00 },
+                { name: "Croque Hähnchenbrust", price: 9.00 },
+                { name: "Croque Sucuk", price: 8.50 }
+            ]
+        },
+        {
+            name: "Salat 🥗",
+            id: "salat",
+            items: [
+                { name: "Gemischter Salat", price: 5.00 },
+                { name: "Thunfisch Salat", price: 6.50 },
+                { name: "Miista", price: 5.00 },
+                { name: "Ma Balla", price: 5.90 },
+                { name: "Tonno", price: 6.50 },
+                { name: "Scampi", price: 7.50 },
+                { name: "Chef", price: 6.50 },
+                { name: "Della Casa", price: 7.00 },
+                { name: "Guken Salat", price: 7.50 },
+                { name: "Gyros", price: 7.50 }
+            ]
+        },
+        {
+            name: "Pasta 🍝",
+            id: "pasta",
+            items: [
+                { name: "Alla Panna", price: 7.00 },
+                { name: "Carbonara", price: 7.50 },
+                { name: "pastore", price: 7.50 },
+                { name: "Toscana", price: 7.50 },
+                { name: "Alla Milano", price: 8.00 },
+                { name: "Italia", price: 8.30 },
+                { name: "Della Casa", price: 8.90 },
+                { name: "Pesto und Put", price: 8.90 },
+                { name: "Bolognese", price: 7.50 },
+                { name: "scampi", price: 9.50 },
+                { name: "Wunsch", price: 10.00 },
+                { name: "Pasta Classico", price: 7.90 },
+                { name: "käse überbacken", price: 1.50 }
+            ]
+        },
+        {
+            name: "Schnitzel 🥩",
+            id: "schnitzel",
+            items: [
+                { name: "Wiener Schnitzel", price: 9.00 },
+                { name: "Jägerschnitzel", price: 10.50 },
+                { name: "Zigeunerschnitzel", price: 10.50 },
+                { name: "Schnitzel Hollandise", price: 10.50 }
+            ]
+        },
+        {
+            name: "Snacks 🍟",
+            id: "snacks",
+            items: [
+                { name: "käsebröchen", price: 5.50 },
+                { name: "Pizzabröchen", price: 6.00 },
+                { name: "American Piyyabrot", price: 7.50 },
+                { name: "Knoblauch Brot", price: 4.00 },
+                { name: "käse Knoblauch Brot", price: 5.00 }
+            ]
+        },
+        {
+            name: "Beilagen 🍞",
+            id: "beilagen",
+            items: [
+                { name: "Süsskartoffeln-Pommes", price: 4.50 },
+                { name: "Chili Cheese Pommes", price: 5.00 },
+                { name: "Pommes", price: 3.00 },
+                { name: "Country Fries", price: 4.00 },
+                { name: "Twister", price: 4.00 },
+                { name: "Chili Pommes", price: 5.00 },
+                { name: "Kroketten", price: 5.00 },
+                { name: "Gegrillte Champignons", price: 4.50 },
+                { name: "Gegrilltes Gemüse", price: 5.00 },
+                { name: "BBQ Pommes", price: 5.00 },
+                { name: "BBQ Twister", price: 5.00 },
+                { name: "Chili Twister", price: 5.00 }
+            ]
+        },
+        {
+            name: "Fingerfood 🍗",
+            id: "fingerfood",
+            items: [
+                { name: "Chicken Nuggets", prices: [{ size: "6 Stk.", price: 6.50 }, { size: "12 Stk.", price: 8.50 }] },
+                { name: "Chicken Wings", prices: [{ size: "6 Stk.", price: 7.00 }, { size: "12 Stk.", price: 10.00 }] },
+                { name: "crispy Chicken Fingers", prices: [{ size: "6 Stk.", price: 7.50 }, { size: "12 Stk.", price: 10.00 }] },
+                { name: "Chili Cheese Nuggets", prices: [{ size: "6 Stk.", price: 6.50 }, { size: "12 Stk.", price: 8.50 }] },
+                { name: "Moyyerella Sticks", prices: [{ size: "6 Stk.", price: 6.50 }, { size: "12 Stk.", price: 8.50 }] },
+                { name: "Michbox", price: 17.50 },
+                { name: "Curry Wurst", price: 7.90 }
+            ]
+        },
+        {
+            name: "Angebote 💥",
+            id: "angebote",
+            items: [
+                { name: "A1 Supper Familienangebot", price: 26.90 },
+                { name: "A2 Pizzblech", price: 27.90 },
+                { name: "A3 3* Pizza", price: 22.90 }
+            ]
+        },
+        {
+            name: "Gyros 🥙",
+            id: "gyros",
+            items: [
+                { name: "Gyros Mista", price: 9.00 },
+                { name: "Gyros Italia", price: 10.00 },
+                { name: "Gyros Athen", price: 10.50 },
+                { name: "Gyros Auflauf", price: 11.50 },
+                { name: "Gyros Curry", price: 10.50 },
+                { name: "Gyros hot", price: 10.00 }
+            ]
+        },
+        {
+            name: "Getränke 🥤",
+            id: "getraenke",
+            items: [
+                { name: "Cola 1Liter", price: 3.00 },
+                { name: "Cola 0.33L", price: 2.00 },
+                { name: "Redbull", price: 2.50 },
+                { name: "Durstlöscher", price: 2.00 },
+                { name: "Fanta (0.33l)", price: 2.50 },
+                { name: "Wasser (0.5l)", price: 2.00 }
+            ]
+        }
+    ];
+
+    let cart = [];
+    let savedInvoices = JSON.parse(localStorage.getItem('savedInvoices')) || [];
+    let currentInvoiceData = null;
+
+    const categoryList = document.getElementById('categoryList');
+    const currentCategoryTitle = document.getElementById('currentCategoryTitle');
+    const menuItemsContainer = document.getElementById('menuItems');
+    const cartItemsContainer = document.getElementById('cartItems');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const finalPriceSpan = document.getElementById('finalPrice');
+    const deliveryCostsInput = document.getElementById('deliveryCostsInput');
+    const newOrderBtn = document.getElementById('newOrderBtn');
+    const createInvoiceBtn = document.getElementById('createInvoiceBtn');
+    const savedInvoicesBtn = document.getElementById('savedInvoicesBtn');
+    // const payBtn = document.getElementById('payBtn'); // تم إزالة زر الدفع
+    const invoiceModal = document.getElementById('invoiceModal');
+    const closeModalBtn = invoiceModal.querySelector('.close-button');
+    const invoiceDetails = document.getElementById('invoiceDetails');
+    const printInvoiceBtn = document.getElementById('printInvoiceBtn');
+    const savePdfBtn = document.getElementById('savePdfBtn');
+    const saveInvoiceBtn = document.getElementById('saveInvoiceBtn');
+    const savedInvoicesModal = document.getElementById('savedInvoicesModal');
+    const closeSavedInvoicesBtn = document.getElementById('closeSavedInvoices');
+    const savedInvoicesList = document.getElementById('savedInvoicesList');
+
+    // Render Categories
+    function renderCategories() {
+        categoryList.innerHTML = '';
+        categoriesData.forEach((category, index) => {
+            const li = document.createElement('li');
+            const categoryName = i18n.getCategoryName(category.name);
+            li.innerHTML = `<span>${categoryName}</span>`;
+            li.dataset.categoryId = category.id;
+            li.style.animationDelay = `${index * 0.05}s`;
+            li.classList.add('category-item');
+            li.addEventListener('click', () => {
+                // Remove active class from all categories
+                document.querySelectorAll('.category-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                // Add active class to selected category
+                li.classList.add('active');
+                selectCategory(category);
+            });
+            categoryList.appendChild(li);
+        });
+    }
+
+    // Update Menu Display when language changes
+    window.updateMenuDisplay = function() {
+        renderCategories();
+        currentCategoryTitle.innerHTML = `<i class="fas fa-utensils"></i> <span>${i18n.t('selectCategory')}</span>`;
+        // Re-render current category to update translations
+        if (menuItemsContainer.innerHTML.trim() !== '') {
+            const currentCategoryEl = document.querySelector('.category-item.active');
+            if (currentCategoryEl) {
+                const categoryId = currentCategoryEl.dataset.categoryId;
+                const category = categoriesData.find(c => c.id === categoryId);
+                if (category) {
+                    selectCategory(category);
+                }
+            }
+        }
+        renderCart();
+    };
+
+    // Update Cart Display when language changes
+    window.updateCartDisplay = function() {
+        renderCart();
+    };
+
+    // Select Category and Render Menu Items
+    function selectCategory(category) {
+        const categoryName = i18n.getCategoryName(category.name);
+        currentCategoryTitle.innerHTML = `<i class="fas fa-utensils"></i> <span>${categoryName}</span>`;
+        
+        // Update pizza category reference and show/hide search container
+        const searchContainer = document.getElementById('searchContainer');
+        const pizzaSearch = document.getElementById('pizzaSearch');
+        if (category.id === 'pizza') {
+            window.updateCurrentPizzaCategory(category);
+            searchContainer.style.display = 'flex';
+            pizzaSearch.value = ''; // Clear search
+            setTimeout(() => pizzaSearch.focus(), 100);
+        } else {
+            searchContainer.style.display = 'none';
+            pizzaSearch.value = '';
+        }
+        
+        menuItemsContainer.innerHTML = '';
+        renderCategoryItems(category, category.items);
+    }
+
+    // Render Category Items (with filter support for search)
+    function renderCategoryItems(category, items) {
+        menuItemsContainer.innerHTML = '';
+        items.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('menu-item');
+            let priceHtml = '';
+            // Get translated product name
+            let translatedProductName = item.name; // Start with original name
+            
+            // If Arabic, look up the translation from i18n
+            if (i18n.currentLanguage === 'ar') {
+                // Look up in i18n.translations.ar
+                translatedProductName = i18n.translations.ar[item.name] || item.name;
+            }
+            // If German, keep the original name (no translation)
+            if ((category.id === 'pizza' || category.id === 'fingerfood') && item.prices) {
+                priceHtml = item.prices.map(p => {
+                    let displaySize = p.size;
+                    // Translate size for fingerfood
+                    if (category.id === 'fingerfood') {
+                        if (p.size === '6 Stk.' && i18n.currentLanguage === 'ar') {
+                            displaySize = i18n.t('inchArabic');
+                        } else if (p.size === '12 Stk.' && i18n.currentLanguage === 'ar') {
+                            displaySize = i18n.t('inch12Arabic');
+                        }
+                    }
+                    return `<button class="pizza-size-btn" data-size="${p.size}" data-price="${p.price.toFixed(2)}">${displaySize}: ${p.price.toFixed(2)}€</button>`;
+                }).join('');
+                div.innerHTML = `
+                    <h3>${translatedProductName}</h3>
+                    <div class="pizza-prices">${priceHtml}</div>
+                `;
+                div.querySelectorAll('.pizza-size-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent category click
+                        const selectedPrice = parseFloat(event.target.dataset.price);
+                        const selectedSize = event.target.dataset.size;
+                        addItemToCart({ name: `${translatedProductName} (${selectedSize})`, price: selectedPrice });
+                    });
+                });
+            } else {
+                div.innerHTML = `
+                    <h3>${translatedProductName}</h3>
+                    <p>${item.price.toFixed(2)}€</p>
+                `;
+                div.addEventListener('click', () => addItemToCart({ name: translatedProductName, price: item.price }));
+            }
+            menuItemsContainer.appendChild(div);
+        });
+    }
+
+    // Add Item to Cart
+    function addItemToCart(item) {
+        // Check if item with same name already exists
+        const existingItem = cart.find(cartItem => cartItem.name === item.name && cartItem.price === item.price);
+        
+        if (existingItem) {
+            // Increase quantity if item exists
+            existingItem.quantity = (existingItem.quantity || 1) + 1;
+        } else {
+            // Add new item with quantity 1
+            item.quantity = 1;
+            cart.push(item);
+        }
+        renderCart();
+        calculateTotals();
+    }
+
+    // Increase Item Quantity
+    function increaseQuantity(index) {
+        if (cart[index]) {
+            cart[index].quantity = (cart[index].quantity || 1) + 1;
+            renderCart();
+            calculateTotals();
+        }
+    }
+
+    // Decrease Item Quantity
+    function decreaseQuantity(index) {
+        if (cart[index]) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity--;
+            } else {
+                // Remove item if quantity reaches 0
+                cart.splice(index, 1);
+            }
+            renderCart();
+            calculateTotals();
+        }
+    }
+
+    // Remove Item from Cart
+    function removeItemFromCart(index) {
+        cart.splice(index, 1);
+        renderCart();
+        calculateTotals();
+    }
+
+    // Render Cart Items
+    function renderCart() {
+        cartItemsContainer.innerHTML = '';
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = `<p style="text-align: center; color: #777; padding: 20px;"><i class="fas fa-shopping-basket" style="font-size: 24px; margin-bottom: 10px; display: block;"></i> ${i18n.t('noItemsInCart')}</p>`;
+            return;
+        }
+        cart.forEach((item, index) => {
+            const quantity = item.quantity || 1;
+            const itemTotal = (item.price * quantity).toFixed(2);
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div class="cart-item-details">
+                    <div>
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">${item.price.toFixed(2)}€</span>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="qty-btn qty-decrease" data-index="${index}">−</button>
+                        <span class="qty-display">${quantity}</span>
+                        <button class="qty-btn qty-increase" data-index="${index}">+</button>
+                        <span class="qty-total">${itemTotal}€</span>
+                    </div>
+                </div>
+                <button class="remove-item-btn" data-index="${index}"><i class="fas fa-trash-alt"></i> ${i18n.t('removeItem')}</button>
+            `;
+            cartItemsContainer.appendChild(li);
+        });
+
+        document.querySelectorAll('.qty-increase').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const index = parseInt(event.target.dataset.index);
+                increaseQuantity(index);
+            });
+        });
+
+        document.querySelectorAll('.qty-decrease').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const index = parseInt(event.target.dataset.index);
+                decreaseQuantity(index);
+            });
+        });
+
+        document.querySelectorAll('.remove-item-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = parseInt(event.target.dataset.index);
+                removeItemFromCart(index);
+            });
+        });
+    }
+
+    // Calculate Totals
+    function calculateTotals() {
+        const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+        const deliveryCostsValue = deliveryCostsInput.value.trim();
+        const deliveryCosts = deliveryCostsValue === '' ? 0 : parseFloat(deliveryCostsValue) || 0;
+        const finalTotal = total + deliveryCosts;
+
+        totalPriceSpan.textContent = `${total.toFixed(2)}€`;
+        finalPriceSpan.textContent = `${finalTotal.toFixed(2)}€`;
+    }
+
+    // Pizza Search Functionality
+    const pizzaSearch = document.getElementById('pizzaSearch');
+    let currentPizzaCategory = null;
+
+    // Update currentPizzaCategory when pizza category is selected
+    window.updateCurrentPizzaCategory = function(category) {
+        if (category.id === 'pizza') {
+            currentPizzaCategory = category;
+        }
+    };
+
+    pizzaSearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        
+        // Get pizza category from categoriesData
+        if (!currentPizzaCategory) {
+            currentPizzaCategory = categoriesData.find(cat => cat.id === 'pizza');
+        }
+
+        if (!currentPizzaCategory) return;
+
+        // Filter pizzas based on search term
+        let filteredPizzas = currentPizzaCategory.items;
+        if (searchTerm) {
+            filteredPizzas = currentPizzaCategory.items.filter(pizza => {
+                const pizzaName = pizza.name.toLowerCase();
+                const translatedName = (i18n.translations.ar && i18n.translations.ar[pizza.name]) ? 
+                    i18n.translations.ar[pizza.name].toLowerCase() : '';
+                
+                return pizzaName.includes(searchTerm) || translatedName.includes(searchTerm);
+            });
+        }
+
+        // Re-render items with filtered results
+        renderCategoryItems(currentPizzaCategory, filteredPizzas);
+
+        // Show "no results" message if needed
+        if (filteredPizzas.length === 0 && searchTerm) {
+            menuItemsContainer.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: #999;">
+                    <i class="fas fa-search" style="font-size: 48px; margin-bottom: 20px; display: block; opacity: 0.5;"></i>
+                    <p>${i18n.currentLanguage === 'ar' ? 'لم يتم العثور على نتائج' : 'Keine Ergebnisse gefunden'}</p>
+                </div>
+            `;
+        }
+    });
+
+    // New Order
+    newOrderBtn.addEventListener('click', () => {
+        cart = [];
+        renderCart();
+        calculateTotals();
+        currentCategoryTitle.innerHTML = `<i class="fas fa-utensils"></i> <span>${i18n.t('selectCategory')}</span>`;
+        menuItemsContainer.innerHTML = '';
+    });
+
+    // Close Modal
+    closeModalBtn.addEventListener('click', () => {
+        invoiceModal.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+            invoiceModal.style.display = 'none';
+        }, 300);
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === invoiceModal) {
+            invoiceModal.style.display = 'none';
+        }
+    });
+
+    // Print Invoice
+    printInvoiceBtn.addEventListener('click', () => {
+        const printContent = invoiceDetails.innerHTML;
+        const originalContent = document.body.innerHTML;
+
+        // إنشاء ورقة أنماط للطباعة
+        const printStyles = `
+            <style>
+                @media print {
+                    @page {
+                        size: A4;
+                        margin: 1cm;
+                    }
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        margin: 0;
+                        padding: 20px;
+                        color: #333;
+                        line-height: 1.5;
+                    }
+                    .invoice-container {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        border: 1px solid #ddd;
+                        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    }
+                    h3 {
+                        text-align: center;
+                        margin-bottom: 25px;
+                        color: #2c3e50;
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+                    p {
+                        margin: 8px 0;
+                        font-size: 16px;
+                    }
+                    hr {
+                        border: 0;
+                        height: 1px;
+                        background-color: #ddd;
+                        margin: 15px 0;
+                    }
+                    .invoice-item {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 8px 0;
+                        font-size: 16px;
+                        border-bottom: 1px dashed #eee;
+                    }
+                    .invoice-item:last-of-type {
+                        border-bottom: none;
+                    }
+                    .invoice-total {
+                        font-weight: bold;
+                        font-size: 18px;
+                        margin-top: 15px;
+                        padding-top: 10px;
+                        display: flex;
+                        justify-content: space-between;
+                        border-top: 2px solid #333;
+                    }
+                    h4 {
+                        font-size: 20px;
+                        color: #2c3e50;
+                        margin-top: 20px;
+                        margin-bottom: 15px;
+                    }
+                }
+            </style>
+        `;
+
+        // إنشاء محتوى الطباعة
+        const printDocument = `
+            <html>
+            <head>
+                <title>Rechnung</title>
+                ${printStyles}
+            </head>
+            <body>
+                <div class="invoice-container">
+                    ${printContent}
+                </div>
+            </body>
+            </html>
+        `;
+
+        // فتح نافذة جديدة للطباعة
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printDocument);
+        printWindow.document.close();
+
+        // انتظار تحميل المحتوى قبل الطباعة
+        printWindow.onload = function() {
+            printWindow.print();
+            printWindow.close();
+        };
+    });
+
+    // Save as PDF (Browser's print to PDF functionality)
+    savePdfBtn.addEventListener('click', () => {
+        alert(i18n.t('pdfInstructions'));
+        printInvoiceBtn.click(); // Trigger print to open print dialog
+    });
+
+    // تم إزالة وظيفة زر الدفع
+
+
+    // Event listener for delivery costs input
+    deliveryCostsInput.addEventListener('input', calculateTotals);
+
+    // ========== VOICE RECOGNITION FUNCTIONALITY ==========
+    const voiceBtn = document.getElementById('voiceBtn');
+    let isListening = false;
+    let permissionGranted = localStorage.getItem('microphonePermissionGranted') === 'true';
+    
+    // Initialize Web Speech API
+    const webSpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    
+    if (webSpeechRecognition) {
+        recognition = new webSpeechRecognition();
+        recognition.lang = 'ar-SA';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+    }
+    
+    // Note: Web Speech API will handle microphone permission directly
+    // No need for explicit getUserMedia call on local files
+    
+    voiceBtn.addEventListener('click', () => {
+        try {
+            if (isListening) {
+                // Stop listening
+                if (recognition) {
+                    recognition.stop();
+                }
+                isListening = false;
+                voiceBtn.classList.remove('listening');
+            } else {
+                // Check if browser supports Web Speech API
+                if (!recognition) {
+                    showVoiceNotification('المتصفح لا يدعم التعرف على الكلام', 'error');
+                    return;
+                }
+                
+                // Start listening - Web Speech API will request microphone permission automatically
+                isListening = true;
+                voiceBtn.classList.add('listening');
+                showVoiceNotification(i18n.t('voiceListeningMsg'), 'info');
+                
+                recognition.onstart = () => {
+                    console.log('Voice recognition started');
+                };
+                
+                recognition.onresult = (event) => {
+                    let transcript = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                    }
+                    
+                    if (transcript) {
+                        handleVoiceInput(transcript);
+                    }
+                };
+                
+                recognition.onerror = (event) => {
+                    let errorMsg = 'فشل التعرف على الصوت';
+                    if (event.error === 'no-speech') {
+                        errorMsg = 'لم يتم التقاط صوت، حاول مرة أخرى';
+                    } else if (event.error === 'network') {
+                        errorMsg = 'خطأ في الاتصال';
+                    } else if (event.error === 'not-allowed') {
+                        errorMsg = 'الرجاء السماح بالوصول إلى الميكروفون من إعدادات المتصفح';
+                    }
+                    showVoiceNotification(errorMsg, 'error');
+                };
+                
+                recognition.onend = () => {
+                    voiceBtn.classList.remove('listening');
+                    isListening = false;
+                };
+                
+                recognition.start();
+            }
+        } catch (error) {
+            console.error('Voice recognition error:', error);
+            let errorMsg = `خطأ: ${error.message || 'فشل التعرف على الصوت'}`;
+            showVoiceNotification(errorMsg, 'error');
+            voiceBtn.classList.remove('listening');
+            isListening = false;
+        }
+    });
+    
+    // Arabic to English product name translation
+    const arabicProductTranslation = {
+        // ===== PIZZA =====
+        'ميلانو': 'Milano',
+        'مارجريتا': 'Margherita',
+        'مارجريتة': 'Margherita',
+        'موتزاريلا': 'Mozzarella',
+        'فورماجي': 'Formaggi',
+        'فنجي': 'Fungi',
+        'سلامي': 'Salami',
+        'بروشوتو': 'Prosciutto',
+        'سلامي فنجي': 'Salami Fungi',
+        'فنجي سلامي': 'Salami Fungi',
+        'بروشوتو فنجي': 'Prosciutto Fungi',
+        'فنجي بروشوتو': 'Prosciutto Fungi',
+        'بروشوتو سلامي': 'Prosciutto Salami',
+        'سلامي بروشوتو': 'Prosciutto Salami',
+        'إيطاليا': 'Italia',
+        'كابري': 'Capri',
+        'سانتوريني': 'Santorini',
+        'إيلو': 'Ilo',
+        'هاواي': 'Hawaii',
+        'تونو': 'Tonno',
+        'مدريدي': 'Madridi',
+        'إسكامبي': 'Scampi',
+        'فروتي ماري': 'Frutti de Mare',
+        'فيجي': 'Veggie',
+        'باليرمو': 'Palermo',
+        'هاهنشن': 'Hähnchenbrust',
+        'دجاج': 'Hähnchenbrust',
+        'كلاسيكو': 'Classico',
+        'ميامي': 'Miami',
+        'آيلاند': 'Island',
+        'باريس': 'Paris',
+        'روكولا': 'Rucola',
+        'بيكون': 'Bacon',
+        'تشكن كاري': 'Chicken Curry',
+        'كاري تشكن': 'Chicken Curry',
+        'إسطنبول': 'Istanbul',
+        'هوت سلامي': 'Hot Salami',
+        'سلامي هوت': 'Hot Salami',
+        'إمارة': 'Emira',
+        'وانش': 'Wunsch',
+        'هوم ستايل': 'Pizza Homestyle',
+        'ديلا كاسا': 'Pizza Della Casa',
+        'يوفو': 'Pizza UFO',
+        'سبيشال': 'Pizza Spezial',
+        'هوت دوغ': 'Pizza Hot Dog',
+        'دوغ هوت': 'Pizza Hot Dog',
+        'سوجوك': 'Pizza Sucuk',
+        'هوت بيف': 'Pizza Hot Beef',
+        'بيف هوت': 'Pizza Hot Beef',
+        'سبانخ': 'Pizza Spinat',
+        'لونا': 'Pizza Luna',
+        'جيروس': 'Pizza Gyros',
+        'زيادة': 'Extra Zutaten',
+        'إضافية': 'Extra Zutaten',
+        'جبنة رند': 'Käse Rand',
+        'رند جبنة': 'Käse Rand',
+        
+        // ===== BURGER =====
+        'هامبرجر': 'Hamburger',
+        'تشيز برجر': 'Cheeseburger',
+        'شيز برجر': 'Cheeseburger',
+        'برجر تشيز': 'Cheeseburger',
+        'برجر شيز': 'Cheeseburger',
+        'تشكن برجر': 'Chicken Burger',
+        'دجاج برجر': 'Chicken Burger',
+        'برجر تشكن': 'Chicken Burger',
+        'برجر دجاج': 'Chicken Burger',
+        'برجر الدجاج': 'Chicken Burger',
+        'بيكون برجر': 'Bacon Burger',
+        'برجر بيكون': 'Bacon Burger',
+        'شامبينيون برجر': 'Champignon Burger',
+        'مشروم برجر': 'Champignon Burger',
+        'برجر شامبينيون': 'Champignon Burger',
+        'برجر مشروم': 'Champignon Burger',
+        'كريسبي تشكن': 'Crispy Chicken Burger',
+        'إيطالي برجر': 'Italian Burger',
+        'برجر إيطالي': 'Italian Burger',
+        'جمبو تشيز': 'Jumbo Cheeseburger',
+        'جمبو هامبرجر': 'Jumbo Hamburger',
+        'جمبو تشكن': 'Jumbo Chicken Burger',
+        'ميكسيكو برجر': 'Mexico Burger',
+        'برجر ميكسيكو': 'Mexico Burger',
+        'تشيلي تشيز': 'Chili Cheeseburger',
+        'برجر تشيلي': 'Chili Cheeseburger',
+        
+        // ===== CROQUE =====
+        'كروك': 'Croque',
+        'كروك مدام': 'Croque Madame',
+        'مدام كروك': 'Croque Madame',
+        'كروك كاممبير': 'Croque Camembert',
+        'كاممبير كروك': 'Croque Camembert',
+        'كروك شينكن': 'Croque Schinken',
+        'شينكن كروك': 'Croque Schinken',
+        'كروك سلامي': 'Croque Salami',
+        'سلامي كروك': 'Croque Salami',
+        'كروك هاواي': 'Croque Hawaii',
+        'هاواي كروك': 'Croque Hawaii',
+        'كروك تونة': 'Croque Thunfisch',
+        'تونة كروك': 'Croque Thunfisch',
+        'كروك دجاج': 'Croque Hähnchenbrust',
+        'دجاج كروك': 'Croque Hähnchenbrust',
+        'كروك سوجوك': 'Croque Sucuk',
+        'سوجوك كروك': 'Croque Sucuk',
+        
+        // ===== SALAD =====
+        'سلطة مختلطة': 'Gemischter Salat',
+        'مختلطة سلطة': 'Gemischter Salat',
+        'سلطة': 'Salat',
+        'سلطة تونة': 'Thunfisch Salat',
+        'تونة سلطة': 'Thunfisch Salat',
+        'ميستا': 'Miista',
+        'سلطة ميستا': 'Miista',
+        'ما بلا': 'Ma Balla',
+        'سلطة ما بلا': 'Ma Balla',
+        'توننو': 'Tonno',
+        'إسكامبي': 'Scampi',
+        'شيف': 'Chef',
+        'سلطة شيف': 'Chef',
+        'ديلا كاسا': 'Della Casa',
+        'جوكن سلطة': 'Guken Salat',
+        'سلطة جوكن': 'Guken Salat',
+        'جيروس': 'Gyros',
+        'سلطة جيروس': 'Gyros',
+        
+        // ===== PASTA =====
+        'باستا': 'Pasta',
+        'ألا بانا': 'Alla Panna',
+        'بانا ألا': 'Alla Panna',
+        'كاربونارا': 'Carbonara',
+        'باستوري': 'pastore',
+        'توسكانا': 'Toscana',
+        'ألا ميلانو': 'Alla Milano',
+        'ميلانو ألا': 'Alla Milano',
+        'إيطاليا': 'Italia',
+        'ديلا كاسا': 'Della Casa',
+        'كاسا ديلا': 'Della Casa',
+        'بيستو': 'Pesto',
+        'باستا بيستو': 'Pesto',
+        'بولونيز': 'Bolognese',
+        'باستا بولونيز': 'Bolognese',
+        'سكامبي': 'scampi',
+        'باستا سكامبي': 'scampi',
+        'وانش': 'Wunsch',
+        'باستا وانش': 'Wunsch',
+        'باستا كلاسيكو': 'Pasta Classico',
+        'كلاسيكو باستا': 'Pasta Classico',
+        'كاسي': 'käse überbacken',
+        'باستا كاسي': 'käse überbacken',
+        'جبن مشوي': 'käse überbacken',
+        'باستا جبن': 'käse überbacken',
+        
+        // ===== SCHNITZEL =====
+        'شنتزل': 'Schnitzel',
+        'شنتزل فيينر': 'Wiener Schnitzel',
+        'فيينر شنتزل': 'Wiener Schnitzel',
+        'جاغر شنتزل': 'Jägerschnitzel',
+        'شنتزل جاغر': 'Jägerschnitzel',
+        'زيجونر': 'Zigeunerschnitzel',
+        'شنتزل زيجونر': 'Zigeunerschnitzel',
+        'شنتزل هولندايز': 'Schnitzel Hollandise',
+        'هولندايز شنتزل': 'Schnitzel Hollandise',
+        
+        // ===== SNACKS =====
+        'كاسي رولز': 'käsebröchen',
+        'رولز كاسي': 'käsebröchen',
+        'بيتزا رولز': 'Pizzabröchen',
+        'رولز بيتزا': 'Pizzabröchen',
+        'أمريكي': 'American Piyyabrot',
+        'ثوم خبز': 'Knoblauch Brot',
+        'خبز ثوم': 'Knoblauch Brot',
+        'كاسي ثوم خبز': 'käse Knoblauch Brot',
+        'كاسي خبز ثوم': 'käse Knoblauch Brot',
+        'خبز ثوم كاسي': 'käse Knoblauch Brot',
+        
+        // ===== SIDES (BEILAGEN) =====
+        'بطاطا حلوة': 'Süsskartoffeln-Pommes',
+        'حلوة بطاطا': 'Süsskartoffeln-Pommes',
+        'تشيلي تشيز بطاطس': 'Chili Cheese Pommes',
+        'تشيز تشيلي بطاطس': 'Chili Cheese Pommes',
+        'بطاطس تشيلي تشيز': 'Chili Cheese Pommes',
+        'بطاطس': 'Pommes',
+        'فرايز': 'Pommes',
+        'كانتري فرايز': 'Country Fries',
+        'فرايز كانتري': 'Country Fries',
+        'تويستر': 'Twister',
+        'تشيلي بطاطس': 'Chili Pommes',
+        'بطاطس تشيلي': 'Chili Pommes',
+        'كروكيت': 'Kroketten',
+        'مشروم مشوي': 'Gegrillte Champignons',
+        'مشوي مشروم': 'Gegrillte Champignons',
+        'خضار مشوي': 'Gegrilltes Gemüse',
+        'مشوي خضار': 'Gegrilltes Gemüse',
+        'بيبيكيو بطاطس': 'BBQ Pommes',
+        'بطاطس بيبيكيو': 'BBQ Pommes',
+        'بيبيكيو تويستر': 'BBQ Twister',
+        'تويستر بيبيكيو': 'BBQ Twister',
+        'بيبيكيو تشيلي': 'Chili Twister',
+        'تشيلي بيبيكيو': 'Chili Twister',
+        
+        // ===== FINGERFOOD =====
+        'ناجتس': 'Chicken Nuggets',
+        'تشكن ناجتس': 'Chicken Nuggets',
+        'ناجتس تشكن': 'Chicken Nuggets',
+        'أجنحة': 'Chicken Wings',
+        'تشكن وينجز': 'Chicken Wings',
+        'وينجز تشكن': 'Chicken Wings',
+        'فينجرز': 'crispy Chicken Fingers',
+        'تشكن فينجرز': 'crispy Chicken Fingers',
+        'فينجرز تشكن': 'crispy Chicken Fingers',
+        'تشيلي تشيز ناجتس': 'Chili Cheese Nuggets',
+        'تشيز تشيلي ناجتس': 'Chili Cheese Nuggets',
+        'ناجتس تشيلي تشيز': 'Chili Cheese Nuggets',
+        'موتزاريلا': 'Moyyerella Sticks',
+        'موتزاريلا ستيكس': 'Moyyerella Sticks',
+        'ستيكس موتزاريلا': 'Moyyerella Sticks',
+        'ميش بوكس': 'Michbox',
+        'كاري': 'Curry Wurst',
+        'كاري وورست': 'Curry Wurst',
+        'وورست كاري': 'Curry Wurst',
+        
+        // ===== OFFERS (ANGEBOTE) =====
+        'عرض عائلي': 'A1 Supper Familienangebot',
+        'عائلي عرض': 'A1 Supper Familienangebot',
+        'بيتزا صفيحة': 'A2 Pizzblech',
+        'صفيحة بيتزا': 'A2 Pizzblech',
+        'ثلاث بيتزا': 'A3 3* Pizza',
+        'بيتزا ثلاث': 'A3 3* Pizza',
+        
+        // ===== GYROS =====
+        'جيروس ميستا': 'Gyros Mista',
+        'ميستا جيروس': 'Gyros Mista',
+        'جيروس إيطاليا': 'Gyros Italia',
+        'إيطاليا جيروس': 'Gyros Italia',
+        'جيروس أثينا': 'Gyros Athen',
+        'أثينا جيروس': 'Gyros Athen',
+        'جيروس أوفلاوف': 'Gyros Auflauf',
+        'أوفلاوف جيروس': 'Gyros Auflauf',
+        'جيروس كاري': 'Gyros Curry',
+        'كاري جيروس': 'Gyros Curry',
+        'جيروس هوت': 'Gyros hot',
+        'هوت جيروس': 'Gyros hot',
+        
+        // ===== DRINKS (GETRÄNKE) =====
+        'كولا': 'Cola',
+        'كولا لتر': 'Cola 1Liter',
+        'لتر كولا': 'Cola 1Liter',
+        'كولا لتر واحد': 'Cola 1Liter',
+        'لتر واحد كولا': 'Cola 1Liter',
+        'كولا ثلث': 'Cola 0.33L',
+        'ثلث كولا': 'Cola 0.33L',
+        'ريد بول': 'Redbull',
+        'دورست': 'Durstlöscher',
+        'فانتا': 'Fanta',
+        'ماء': 'Wasser',
+        'ماء نصف': 'Wasser (0.5l)',
+        'نصف ماء': 'Wasser (0.5l)'
+    };
+    
+    // Handle voice input with size detection
+    function handleVoiceInput(transcript) {
+        transcript = transcript.trim();
+        // For non-Arabic text, convert to lowercase for better matching
+        const transcriptLower = transcript.toLowerCase();
+        console.log('Voice input:', transcript);
+        
+        // Map size keywords (Arabic + German) to prices index - ordered by priority
+        const sizeKeywords = [
+            // Large sizes (40*60cm) - Party/Family size
+            { keyword: 'parte', index: 3 },      // German
+            { keyword: 'part', index: 3 },       // German
+            { keyword: 'بارتي', index: 3 },      // Arabic
+            { keyword: 'عائلي', index: 3 },      // Arabic "family"
+            { keyword: 'عملاق', index: 3 },      // Arabic "giant"
+            { keyword: 'ستين', index: 3 },      // Arabic 60
+            { keyword: '60', index: 3 },         // Numeric
+            
+            // XL sizes (45*32cm)
+            { keyword: 'gross', index: 2 },      // German
+            { keyword: 'großer', index: 2 },     // German
+            { keyword: 'كبير', index: 2 },       // Arabic "large"
+            { keyword: 'لارج', index: 2 },       // Arabic "large"
+            { keyword: 'خمسة وأربعين', index: 2 }, // Arabic 45
+            { keyword: '45', index: 2 },         // Numeric
+            
+            // Medium sizes (30cm)
+            { keyword: 'mete', index: 1 },       // German
+            { keyword: 'mittel', index: 1 },     // German
+            { keyword: 'medium', index: 1 },     // English
+            { keyword: 'وسط', index: 1 },        // Arabic "medium"
+            { keyword: 'متوسط', index: 1 },      // Arabic "medium"
+            { keyword: 'تلاتين', index: 1 },     // Arabic 30
+            { keyword: 'ثلاتين', index: 1 },     // Arabic 30 (alternative)
+            { keyword: 'ثلاثين', index: 1 },     // Arabic 30 (alternative)
+            { keyword: '30', index: 1 },         // Numeric
+            
+            // Small sizes (26cm)
+            { keyword: 'klein', index: 0 },      // German
+            { keyword: 'صغير', index: 0 },       // Arabic "small"
+            { keyword: 'ميني', index: 0 },       // Arabic "mini"
+            { keyword: 'ستة وعشرين', index: 0 }, // Arabic 26
+            { keyword: '26', index: 0 }          // Numeric
+        ];
+        
+        // Split into words for better matching - use both original and lowercase versions
+        let words = transcript.split(' ');
+        let wordsLower = transcriptLower.split(' ');
+        
+        // Find size keyword in transcript
+        let selectedSizeIndex = null;
+        let detectedSize = null;
+        let sizeWordIndex = null;
+        
+        for (let sizeObj of sizeKeywords) {
+            for (let i = 0; i < wordsLower.length; i++) {
+                if (wordsLower[i].includes(sizeObj.keyword)) {
+                    selectedSizeIndex = sizeObj.index;
+                    detectedSize = sizeObj.keyword;
+                    sizeWordIndex = i;
+                    console.log('Detected size:', detectedSize, 'Index:', selectedSizeIndex);
+                    break;
+                }
+            }
+            if (selectedSizeIndex !== null) break;
+        }
+        
+        // Extract product name (remove the size word completely) - use original transcript
+        let productNameToSearch = transcript;
+        if (sizeWordIndex !== null) {
+            words.splice(sizeWordIndex, 1); // Remove the word at that index from original
+            productNameToSearch = words.join(' ').trim();
+        }
+        
+        console.log('Product name to search:', productNameToSearch);
+        
+        // Try to translate Arabic product name to English
+        let searchName = productNameToSearch;
+        if (arabicProductTranslation[productNameToSearch]) {
+            searchName = arabicProductTranslation[productNameToSearch];
+            console.log('Translated product name from Arabic:', productNameToSearch, 'to:', searchName);
+        }
+        
+        // Search for product in all categories
+        let foundProduct = null;
+        let foundByExactMatch = false;
+        let foundByWordBoundary = false;
+        
+        for (let category of categoriesData) {
+            for (let item of category.items) {
+                const itemNameLower = item.name.toLowerCase();
+                const searchNameLower = searchName.toLowerCase();
+                
+                // Strategy 1: Exact match (complete word match)
+                if (itemNameLower === searchNameLower) {
+                    foundProduct = item;
+                    foundByExactMatch = true;
+                    console.log('Found product (exact match):', item.name);
+                    break;
+                }
+                
+                // Strategy 2: Word boundary matching (full word, not substring)
+                // Split by non-word characters to get words
+                const itemWords = itemNameLower.split(/\W+/).filter(w => w);
+                const searchWords = searchNameLower.split(/\W+/).filter(w => w);
+                
+                // Check if search term matches a complete word or all words match
+                const exactWordMatch = itemWords.some(word => word === searchNameLower);
+                const allWordsMatch = searchWords.length > 0 && searchWords.every(searchWord => 
+                    itemWords.some(itemWord => itemWord === searchWord)
+                );
+                
+                if ((exactWordMatch || allWordsMatch) && !foundByWordBoundary) {
+                    foundProduct = item;
+                    foundByWordBoundary = true;
+                    console.log('Found product (word match):', item.name);
+                    break;
+                }
+                
+                // Strategy 3: Substring match (only if no exact/word matches found)
+                if (!foundByExactMatch && !foundByWordBoundary && 
+                    (itemNameLower.includes(searchNameLower) ||
+                     searchNameLower.includes(itemNameLower))) {
+                    if (!foundProduct) { // Store first substring match only
+                        foundProduct = item;
+                        console.log('Found product (substring match):', item.name);
+                    }
+                }
+            }
+            if (foundByExactMatch || foundByWordBoundary) break; // Stop early for exact/word matches
+        }
+        
+        if (foundProduct) {
+            // If product has multiple prices (pizza, fingerfood)
+            if (foundProduct.prices && foundProduct.prices.length > 0) {
+                // Use selected size or default to first size
+                const priceIndex = selectedSizeIndex !== null ? selectedSizeIndex : 0;
+                
+                // Make sure index is valid
+                let finalIndex = priceIndex;
+                if (finalIndex >= foundProduct.prices.length) {
+                    finalIndex = foundProduct.prices.length - 1;
+                }
+                
+                const selectedPrice = foundProduct.prices[finalIndex];
+                
+                if (selectedPrice) {
+                    addItemToCart({
+                        name: `${foundProduct.name} (${selectedPrice.size})`,
+                        price: selectedPrice.price
+                    });
+                    showVoiceNotification(`✓ تم إضافة: ${foundProduct.name} - ${selectedPrice.size}`, 'success');
+                } else {
+                    const defaultPrice = foundProduct.prices[0];
+                    addItemToCart({
+                        name: `${foundProduct.name} (${defaultPrice.size})`,
+                        price: defaultPrice.price
+                    });
+                    showVoiceNotification(`✓ تم إضافة: ${foundProduct.name} (${defaultPrice.size})`, 'success');
+                }
+            } else {
+                // Single price product
+                addItemToCart(foundProduct);
+                showVoiceNotification(`✓ تم إضافة: ${foundProduct.name}`, 'success');
+            }
+        } else {
+            // Show what was searched for in the error message
+            let displayName = productNameToSearch;
+            if (arabicProductTranslation[productNameToSearch]) {
+                displayName = `${productNameToSearch} (${arabicProductTranslation[productNameToSearch]})`;
+            }
+            showVoiceNotification(`لم يتم العثور على: "${displayName}"`, 'error');
+        }
+    }
+    
+    // Show voice notification
+    function showVoiceNotification(message, type = 'info') {
+        // Remove existing notification if any
+        const existingNotification = document.querySelector('.voice-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        const notification = document.createElement('div');
+        notification.className = `voice-notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideInUp 0.3s ease reverse';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    // ======== SAVED INVOICES FUNCTIONALITY ========
+    
+    // Save current invoice
+    saveInvoiceBtn.addEventListener('click', () => {
+        if (!currentInvoiceData) return;
+        
+        // Add timestamp
+        currentInvoiceData.savedAt = new Date().toLocaleString(i18n.currentLanguage === 'ar' ? 'ar-SA' : 'de-DE');
+        
+        // Add to saved invoices
+        savedInvoices.unshift(currentInvoiceData);
+        localStorage.setItem('savedInvoices', JSON.stringify(savedInvoices));
+        
+        // Show success message
+        showVoiceNotification('✓ تم حفظ الفاتورة بنجاح / Rechnung gespeichert', 'success');
+        
+        // Close the modal
+        invoiceModal.style.display = 'none';
+    });
+
+    // Open saved invoices modal
+    savedInvoicesBtn.addEventListener('click', () => {
+        savedInvoicesModal.style.display = 'flex';
+        renderSavedInvoices();
+    });
+
+    // Close saved invoices modal
+    closeSavedInvoicesBtn.addEventListener('click', () => {
+        savedInvoicesModal.style.display = 'none';
+    });
+
+    // Close saved invoices modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === savedInvoicesModal) {
+            savedInvoicesModal.style.display = 'none';
+        }
+    });
+
+    // Render saved invoices list
+    function renderSavedInvoices() {
+        savedInvoicesList.innerHTML = '';
+        
+        if (savedInvoices.length === 0) {
+            savedInvoicesList.innerHTML = `
+                <div class="empty-invoices">
+                    <i class="fas fa-inbox"></i>
+                    <p>${i18n.currentLanguage === 'ar' ? 'لا توجد فواتير محفوظة' : 'Keine gespeicherten Rechnungen'}</p>
+                </div>
+            `;
+            return;
+        }
+
+        savedInvoices.forEach((invoice, index) => {
+            const invoiceDiv = document.createElement('div');
+            invoiceDiv.className = 'saved-invoice-item';
+            
+            const items = invoice.items.map(item => `${item.name} (${item.quantity}x)`).join(', ');
+            
+            invoiceDiv.innerHTML = `
+                <div class="saved-invoice-item-info">
+                    <div class="saved-invoice-item-header">
+                        <span class="invoice-number">#${invoice.invoiceNumber}</span>
+                        <span class="invoice-date">${invoice.invoiceDate}</span>
+                    </div>
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 8px;">
+                        ${items}
+                    </div>
+                    <div>
+                        <span style="color: #999; font-size: 0.85em;">${i18n.currentLanguage === 'ar' ? 'محفوظة في: ' : 'Gespeichert: '}${invoice.savedAt}</span>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="invoice-total">${invoice.total.toFixed(2)}€</div>
+                    <div class="saved-invoice-actions">
+                        <button class="invoice-view-btn" data-index="${index}"><i class="fas fa-eye"></i> ${i18n.currentLanguage === 'ar' ? 'عرض' : 'Anzeigen'}</button>
+                        <button class="invoice-delete-btn" data-index="${index}"><i class="fas fa-trash-alt"></i> ${i18n.currentLanguage === 'ar' ? 'حذف' : 'Löschen'}</button>
+                    </div>
+                </div>
+            `;
+            
+            savedInvoicesList.appendChild(invoiceDiv);
+        });
+
+        // Add event listeners for view and delete buttons
+        document.querySelectorAll('.invoice-view-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = parseInt(e.currentTarget.dataset.index);
+                viewSavedInvoice(index);
+            });
+        });
+
+        document.querySelectorAll('.invoice-delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const index = parseInt(e.currentTarget.dataset.index);
+                deleteSavedInvoice(index);
+            });
+        });
+    }
+
+    // View saved invoice
+    function viewSavedInvoice(index) {
+        const invoice = savedInvoices[index];
+        if (!invoice) return;
+
+        let invoiceHtml = `
+            <h3>${i18n.t('headerTitle')}</h3>
+            <p><strong>${i18n.currentLanguage === 'ar' ? 'رقم الفاتورة' : 'Rechnungsnummer'}:</strong> ${invoice.invoiceNumber}</p>
+            <p><strong>${i18n.currentLanguage === 'ar' ? 'التاريخ' : 'Datum'}:</strong> ${invoice.invoiceDate}</p>
+            <hr>
+            <h4>${i18n.currentLanguage === 'ar' ? 'المطلوبات' : 'Bestellte Artikel'}:</h4>
+        `;
+
+        invoice.items.forEach(item => {
+            invoiceHtml += `
+                <div class="invoice-item">
+                    <span>${item.name} (${item.quantity}x)</span>
+                    <span>${item.itemTotal}€</span>
+                </div>
+            `;
+        });
+
+        invoiceHtml += `
+            <div class="invoice-item">
+                <span>${i18n.t('deliveryCosts')}:</span>
+                <span>${invoice.deliveryCosts.toFixed(2)}€</span>
+            </div>
+            <hr>
+            <div class="invoice-total">
+                <span>${i18n.t('totalPrice')}:</span>
+                <span>${invoice.total.toFixed(2)}€</span>
+            </div>
+            <div class="invoice-total">
+                <span>${i18n.t('finalPrice')}:</span>
+                <span>${invoice.finalTotal.toFixed(2)}€</span>
+            </div>
+        `;
+
+        invoiceDetails.innerHTML = invoiceHtml;
+        invoiceModal.style.display = 'flex';
+        invoiceModal.style.animation = 'fadeIn 0.3s ease';
+        
+        // Close the saved invoices modal
+        savedInvoicesModal.style.display = 'none';
+    }
+
+    // Delete saved invoice
+    function deleteSavedInvoice(index) {
+        if (confirm(i18n.currentLanguage === 'ar' ? 'هل تريد حذف هذه الفاتورة؟' : 'Möchten Sie diese Rechnung löschen?')) {
+            savedInvoices.splice(index, 1);
+            localStorage.setItem('savedInvoices', JSON.stringify(savedInvoices));
+            renderSavedInvoices();
+            showVoiceNotification('✓ تم حذف الفاتورة / Rechnung gelöscht', 'success');
+        }
+    }
+
+    // Store invoice data when creating invoice
+    createInvoiceBtn.addEventListener('click', function() {
+        if (cart.length === 0) {
+            alert(i18n.t('noItemsInCart'));
+            return;
+        }
+
+        const restaurantName = i18n.t('headerTitle');
+        const invoiceNumber = Math.floor(Math.random() * 1000000);
+        const locale = i18n.currentLanguage === 'ar' ? 'ar-SA' : 'de-DE';
+        const invoiceDate = new Date().toLocaleDateString(locale);
+
+        let invoiceItemsHtml = '';
+        let items = [];
+        cart.forEach(item => {
+            const quantity = item.quantity || 1;
+            const itemTotal = (item.price * quantity).toFixed(2);
+            invoiceItemsHtml += `
+                <div class="invoice-item">
+                    <span>${item.name} (${quantity}x)</span>
+                    <span>${itemTotal}€</span>
+                </div>
+            `;
+            items.push({
+                name: item.name,
+                price: item.price,
+                quantity: quantity,
+                itemTotal: itemTotal
+            });
+        });
+
+        const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+        const deliveryCostsValue = deliveryCostsInput.value.trim();
+        const deliveryCosts = deliveryCostsValue === '' ? 0 : parseFloat(deliveryCostsValue) || 0;
+        const finalTotal = total + deliveryCosts;
+
+        // Store invoice data
+        currentInvoiceData = {
+            invoiceNumber: invoiceNumber,
+            invoiceDate: invoiceDate,
+            restaurantName: restaurantName,
+            items: items,
+            total: total,
+            deliveryCosts: deliveryCosts,
+            finalTotal: finalTotal
+        };
+
+        const invoiceNumberLabel = i18n.currentLanguage === 'ar' ? i18n.t('invoiceNumberArabic') : i18n.t('invoiceNumber');
+        const invoiceDateLabel = i18n.currentLanguage === 'ar' ? i18n.t('invoiceDateArabic') : i18n.t('invoiceDate');
+        const orderedItemsLabel = i18n.currentLanguage === 'ar' ? i18n.t('orderedItemsArabic') : i18n.t('orderedItems');
+        
+        invoiceDetails.innerHTML = `
+            <h3>${restaurantName}</h3>
+            <p><strong>${invoiceNumberLabel}:</strong> ${invoiceNumber}</p>
+            <p><strong>${invoiceDateLabel}:</strong> ${invoiceDate}</p>
+            <hr>
+            <h4>${orderedItemsLabel}:</h4>
+            ${invoiceItemsHtml}
+            <div class="invoice-item">
+                <span>${i18n.t('deliveryCosts')}:</span>
+                <span>${deliveryCosts.toFixed(2)}€</span>
+            </div>
+            <hr>
+            <div class="invoice-total">
+                <span>${i18n.t('totalPrice')}:</span>
+                <span>${total.toFixed(2)}€</span>
+            </div>
+            <div class="invoice-total">
+                <span>${i18n.t('finalPrice')}:</span>
+                <span>${finalTotal.toFixed(2)}€</span>
+            </div>
+        `;
+        invoiceModal.style.display = 'flex';
+        invoiceModal.style.animation = 'fadeIn 0.3s ease';
+    });
+
+    // Initial render
+    renderCategories();
+    renderCart();
+    calculateTotals();
+});
+
+    </script>
+</body>
+</html>
